@@ -64,3 +64,12 @@
 2201	13465	7777396340000000	CMakeFiles/hz.dir/drawgame.cpp.obj	c83829905a3a817a
 2164	13821	7777396340000000	CMakeFiles/hz.dir/game.cpp.obj	aa9a546834eabd58
 13821	15433	7777396460000000	hz.exe	55a6f1f1dd3ea217
+120	625	7777472144900000	hz_autogen/timestamp	a7d07766f37a9b36
+120	625	7777472144900000	hz_autogen/mocs_compilation.cpp	a7d07766f37a9b36
+120	625	7777472144900000	D:/fjfi/6-semeter/prc2/skladka/hz/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/hz_autogen/timestamp	a7d07766f37a9b36
+120	625	7777472144900000	D:/fjfi/6-semeter/prc2/skladka/hz/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/hz_autogen/mocs_compilation.cpp	a7d07766f37a9b36
+626	9114	7777472160000000	CMakeFiles/hz.dir/symboloflife.cpp.obj	dcda5691d68f654f
+652	9116	7777472160000000	CMakeFiles/hz.dir/paramofnewgame.cpp.obj	42ca8f92179d5a0e
+635	9303	7777472160000000	CMakeFiles/hz.dir/setiings.cpp.obj	b16a0a314851e518
+644	10913	7777472160000000	CMakeFiles/hz.dir/drawgame.cpp.obj	c83829905a3a817a
+10913	12451	7777472260000000	hz.exe	55a6f1f1dd3ea217

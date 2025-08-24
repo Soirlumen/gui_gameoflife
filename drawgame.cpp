@@ -86,6 +86,9 @@ void Drawgame::setupMenu()
 
     savemennu=new QMenu(tr("&Game"));
     savemennu->addAction(actSaveGame);
+    savemennu->addAction(actNewGame);
+    savemennu->addAction(actOpenGame);
+    savemennu->addAction(actRunGame);
     mnuBar=new QMenuBar(this);
     mnuBar->autoFillBackground();
     mnuBar->addMenu(savemennu);
