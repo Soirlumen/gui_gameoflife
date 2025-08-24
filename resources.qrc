@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="/">
+    <file>igra.txt</file>
+    <file>glider.txt</file>
+    <file>icn.png</file>
+  </qresource>
+</RCC>
