@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include "helper.h"
+#include "paramofnewgame.h"
+#include "symboloflife.h"
 
 class QGraphicsRectItem;
 class QGraphicsScene;
@@ -23,6 +25,7 @@ class Drawgame : public QWidget
     int y;
     char symbol;
     int size_of_square=20;
+    QString workdir;
     QGraphicsView *view;
     QGraphicsScene *scene;
     QString vec_to_QStr(char ch);
@@ -34,16 +37,22 @@ class Drawgame : public QWidget
     QMenuBar *mnuBar;
 
 public:
-    explicit Drawgame(QWidget *parent = nullptr,char ch='#', int x=10, int y=10);
+    explicit Drawgame(QWidget *parent = nullptr);//,char ch='#', int x=10, int y=10);
     ~Drawgame();
-    void init();
+    void setupScene();
     void setupMenu();
+    void updateGameboard(char newsym, int newh, int neww);
 protected:
     bool eventFilter(QObject* obj, QEvent* event) override;
 private:
     Ui::Drawgame *ui;
 private slots:
     void writeFile();
+    void drawGrid();
+    void setupConnects();
+public slots:
+    void openNewGameboard();
+    void openExistingGameboard();
 };
 
 

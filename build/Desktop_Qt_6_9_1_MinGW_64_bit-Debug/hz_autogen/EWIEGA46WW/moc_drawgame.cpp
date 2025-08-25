@@ -7,6 +7,7 @@
 *****************************************************************************/
 
 #include "../../../../drawgame.h"
+#include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>
@@ -40,12 +41,24 @@ template <> constexpr inline auto Drawgame::qt_create_metaobjectdata<qt_meta_tag
     QtMocHelpers::StringRefStorage qt_stringData {
         "Drawgame",
         "writeFile",
-        ""
+        "",
+        "drawGrid",
+        "setupConnects",
+        "openNewGameboard",
+        "openExistingGameboard"
     };
 
     QtMocHelpers::UintData qt_methods {
         // Slot 'writeFile'
         QtMocHelpers::SlotData<void()>(1, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'drawGrid'
+        QtMocHelpers::SlotData<void()>(3, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'setupConnects'
+        QtMocHelpers::SlotData<void()>(4, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'openNewGameboard'
+        QtMocHelpers::SlotData<void()>(5, 2, QMC::AccessPublic, QMetaType::Void),
+        // Slot 'openExistingGameboard'
+        QtMocHelpers::SlotData<void()>(6, 2, QMC::AccessPublic, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -70,6 +83,10 @@ void Drawgame::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: _t->writeFile(); break;
+        case 1: _t->drawGrid(); break;
+        case 2: _t->setupConnects(); break;
+        case 3: _t->openNewGameboard(); break;
+        case 4: _t->openExistingGameboard(); break;
         default: ;
         }
     }
@@ -95,14 +112,14 @@ int Drawgame::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 1)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 1;
+        _id -= 5;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 1)
+        if (_id < 5)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 1;
+        _id -= 5;
     }
     return _id;
 }

@@ -125,6 +125,7 @@ D:/fjfi/6-semeter/prc2/skladka/hz/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/hz_a
   C:/Qt/6.9.1/mingw_64/include/QtCore/qtversionchecks.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qtypeinfo.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qtypes.h \
+  C:/Qt/6.9.1/mingw_64/include/QtCore/qurl.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qutf8stringview.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qvariant.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qvarlengtharray.h \
@@ -145,19 +146,29 @@ D:/fjfi/6-semeter/prc2/skladka/hz/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/hz_a
   C:/Qt/6.9.1/mingw_64/include/QtGui/qkeysequence.h \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qpaintdevice.h \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qpalette.h \
+  C:/Qt/6.9.1/mingw_64/include/QtGui/qpen.h \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qpixelformat.h \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qpixmap.h \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qpolygon.h \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qregion.h \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qrgb.h \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qrgba64.h \
+  C:/Qt/6.9.1/mingw_64/include/QtGui/qtextcursor.h \
+  C:/Qt/6.9.1/mingw_64/include/QtGui/qtextdocument.h \
+  C:/Qt/6.9.1/mingw_64/include/QtGui/qtextformat.h \
+  C:/Qt/6.9.1/mingw_64/include/QtGui/qtextoption.h \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qtgui-config.h \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qtguiexports.h \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qtguiglobal.h \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qtransform.h \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qwindowdefs.h \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qwindowdefs_win.h \
+  C:/Qt/6.9.1/mingw_64/include/QtWidgets/QDialog \
+  C:/Qt/6.9.1/mingw_64/include/QtWidgets/QLineEdit \
   C:/Qt/6.9.1/mingw_64/include/QtWidgets/QWidget \
+  C:/Qt/6.9.1/mingw_64/include/QtWidgets/qdialog.h \
+  C:/Qt/6.9.1/mingw_64/include/QtWidgets/qframe.h \
+  C:/Qt/6.9.1/mingw_64/include/QtWidgets/qlineedit.h \
   C:/Qt/6.9.1/mingw_64/include/QtWidgets/qsizepolicy.h \
   C:/Qt/6.9.1/mingw_64/include/QtWidgets/qtwidgets-config.h \
   C:/Qt/6.9.1/mingw_64/include/QtWidgets/qtwidgetsexports.h \
@@ -412,4 +423,6 @@ D:/fjfi/6-semeter/prc2/skladka/hz/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/hz_a
   C:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h \
   C:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h \
   C:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wctype.h \
-  D:/fjfi/6-semeter/prc2/skladka/hz/helper.h
+  D:/fjfi/6-semeter/prc2/skladka/hz/helper.h \
+  D:/fjfi/6-semeter/prc2/skladka/hz/paramofnewgame.h \
+  D:/fjfi/6-semeter/prc2/skladka/hz/symboloflife.h

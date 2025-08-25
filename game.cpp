@@ -106,7 +106,7 @@ void game::setupGame()
 
 void game::closeEvent(QCloseEvent *evt)
 {
-    if(QMessageBox::question(this, tr("odejit?"), tr("chcete fakt ukoncit appku!?"))
+    if(QMessageBox::question(this, tr("odeYEET?"), tr("chcete fakt ukoncit appku!? : ("))
         == QMessageBox::StandardButton::No){
         evt->ignore();
         return;
@@ -167,7 +167,7 @@ void game::openGame()
         }
         CMatrix field=convert_SQ_toC(read_file2(fileName),symbolforlivecell);
         sizeX=field.size();
-        field[0].pop_back(); //protože z nějakého důvodu se při uložení txt souboru uloží prázdný řádek navíc achjo
+        //field[0].pop_back(); //protože z nějakého důvodu se při uložení txt souboru uloží prázdný řádek navíc achjo
         sizeY=field[0].size();
         if(test_matrix_consistency(field)){
             if(thatGame==nullptr){
@@ -198,7 +198,6 @@ void game::openSetting()
         nextFrameTime=sdialog.getNextFrame();
         paint(thatGame->get_actual_board());
         resizeWindow();
-
     }
     else{
         QMessageBox::warning(this,tr("eror"),tr("cancelnul jsi to, nic nebylo nahrato"));
@@ -208,7 +207,11 @@ void game::openSetting()
 
 void game::newGameboard()
 {
-    ParamOfNewGame PoNG;
+    dwidget=new Drawgame(nullptr);
+    dwidget->show();
+    connect(dwidget, &QWidget::destroyed, this, [this]() {dwidget = nullptr; //this->setCentralWidget(view);
+    });
+ /*   ParamOfNewGame PoNG;
     if(PoNG.exec()==QDialog::Accepted){
 
         dwidget=new Drawgame(nullptr,PoNG.getSymbol(),PoNG.getHeight(),PoNG.getWidth());
@@ -221,7 +224,7 @@ void game::newGameboard()
         qDebug()<<"ten obrazek zase neni konzistentni a jsme v pytli";
         QMessageBox::warning(this,tr("eror"),tr("nevlozil jsi udaje, nic se nestalo"));
     }
-
+*/
 }
 
 void game::setupConnections()

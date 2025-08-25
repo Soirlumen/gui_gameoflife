@@ -7,7 +7,7 @@
 #include "symboloflife.h"
 #include "setiings.h"
 #include "drawgame.h"
-#include "paramofnewgame.h"
+//#include "paramofnewgame.h"
 
 class QAction;
 class QToolBar;

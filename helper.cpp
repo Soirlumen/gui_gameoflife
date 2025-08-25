@@ -104,7 +104,7 @@ SQMatrix read_file2(QString filename)
     {
         while(!file.atEnd())
         {
-            vec.push_back(file.readLine());
+           vec.push_back(file.readLine().trimmed());
         }
     }
     return vec;
@@ -161,21 +161,11 @@ bool test_matrix_consistency(CMatrix c)
         qDebug()<<"it's too small man, make bigger field pls";
         return false;
     }
-    //prvni radek bere nějak jinak ja to nechapu
-    if(c[0].size()+1!=c[1].size()){
-        qDebug()<<"iterace: "<<0;
-        qDebug()<<"man it's not a rectangle, its something cringe lol";
-        return false;
-    }
 
-    int first_wymiar=c[1].size();
-    qDebug()<<first_wymiar<<"delka 2. radku";
-    qDebug()<<c.size()<<" pocet iteraci";
-    for(int i=1;i<c.size();i++){
-        //qDebug()<<"velikost: "<<c[i].size();
-        if(c[i].size()!=first_wymiar){
-            qDebug()<<"ktery radek je blbe: "<<i;
-            qDebug()<<"man it's not a rectangle, its something cringe lol";
+    int first_wymiar = c[0].size();
+    for (int i = 1; i < c.size(); i++) {
+        if (c[i].size() != first_wymiar) {
+            qDebug()<<"Row "<<i<<" has different size";
             return false;
         }
     }
