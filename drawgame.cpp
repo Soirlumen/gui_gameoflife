@@ -30,7 +30,7 @@ QString Drawgame::vec_to_QStr(char ch)
     return result;
 }
 
-Drawgame::Drawgame(QWidget *parent): QWidget(parent), ui(new Ui::Drawgame),symbol('#'),x(480),y(640)
+Drawgame::Drawgame(QWidget *parent,Qt::WindowFlags f): QWidget(parent,f), ui(new Ui::Drawgame),symbol('#'),x(480),y(640)
 {
     ui->setupUi(this);
     setupScene();

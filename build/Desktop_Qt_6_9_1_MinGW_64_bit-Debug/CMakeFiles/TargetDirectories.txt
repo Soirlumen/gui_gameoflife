@@ -1,9 +1,0 @@
-D:/fjfi/6-semeter/prc2/skladka/hz/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/CMakeFiles/hz.dir
-D:/fjfi/6-semeter/prc2/skladka/hz/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/CMakeFiles/edit_cache.dir
-D:/fjfi/6-semeter/prc2/skladka/hz/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/CMakeFiles/rebuild_cache.dir
-D:/fjfi/6-semeter/prc2/skladka/hz/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/CMakeFiles/list_install_components.dir
-D:/fjfi/6-semeter/prc2/skladka/hz/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/CMakeFiles/install.dir
-D:/fjfi/6-semeter/prc2/skladka/hz/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/CMakeFiles/install/local.dir
-D:/fjfi/6-semeter/prc2/skladka/hz/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/CMakeFiles/install/strip.dir
-D:/fjfi/6-semeter/prc2/skladka/hz/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/CMakeFiles/hz_autogen_timestamp_deps.dir
-D:/fjfi/6-semeter/prc2/skladka/hz/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/CMakeFiles/hz_autogen.dir

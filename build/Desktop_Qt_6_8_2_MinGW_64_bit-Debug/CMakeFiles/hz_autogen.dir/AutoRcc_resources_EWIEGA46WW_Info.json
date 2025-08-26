@@ -1,0 +1,27 @@
+{
+	"BUILD_DIR" : "G:/111vse/111fjfi/3rok/gui/zapocet/gui_gameoflife/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/hz_autogen",
+	"CMAKE_BINARY_DIR" : "G:/111vse/111fjfi/3rok/gui/zapocet/gui_gameoflife/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "G:/111vse/111fjfi/3rok/gui/zapocet/gui_gameoflife/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "G:/111vse/111fjfi/3rok/gui/zapocet/gui_gameoflife",
+	"CMAKE_SOURCE_DIR" : "G:/111vse/111fjfi/3rok/gui/zapocet/gui_gameoflife",
+	"CROSS_CONFIG" : false,
+	"GENERATOR" : "Ninja",
+	"INCLUDE_DIR" : "G:/111vse/111fjfi/3rok/gui/zapocet/gui_gameoflife/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/hz_autogen/include",
+	"INPUTS" : 
+	[
+		"G:/111vse/111fjfi/3rok/gui/zapocet/gui_gameoflife/igra.txt",
+		"G:/111vse/111fjfi/3rok/gui/zapocet/gui_gameoflife/glider.txt",
+		"G:/111vse/111fjfi/3rok/gui/zapocet/gui_gameoflife/icn.png"
+	],
+	"LOCK_FILE" : "G:/111vse/111fjfi/3rok/gui/zapocet/gui_gameoflife/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/CMakeFiles/hz_autogen.dir/AutoRcc_resources_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "--no-zstd", "-name", "resources" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_resources.cpp",
+	"RCC_EXECUTABLE" : "C:/qtzavriuzhubukurva/6.8.2/mingw_64/bin/rcc.exe",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "G:/111vse/111fjfi/3rok/gui/zapocet/gui_gameoflife/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/CMakeFiles/hz_autogen.dir/AutoRcc_resources_EWIEGA46WW_Used.txt",
+	"SOURCE" : "G:/111vse/111fjfi/3rok/gui/zapocet/gui_gameoflife/resources.qrc",
+	"USE_BETTER_GRAPH" : true,
+	"VERBOSITY" : 0
+}

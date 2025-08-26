@@ -207,7 +207,8 @@ void game::openSetting()
 
 void game::newGameboard()
 {
-    dwidget=new Drawgame(nullptr);
+    dwidget=new Drawgame(this,Qt::Window);
+    dwidget->setAttribute(Qt::WA_DeleteOnClose);
     dwidget->show();
     connect(dwidget, &QWidget::destroyed, this, [this]() {dwidget = nullptr; //this->setCentralWidget(view);
     });

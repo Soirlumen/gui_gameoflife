@@ -37,7 +37,7 @@ class Drawgame : public QWidget
     QMenuBar *mnuBar;
 
 public:
-    explicit Drawgame(QWidget *parent = nullptr);//,char ch='#', int x=10, int y=10);
+    explicit Drawgame(QWidget *parent = nullptr,Qt::WindowFlags f = Qt::Window);//,char ch='#', int x=10, int y=10);
     ~Drawgame();
     void setupScene();
     void setupMenu();
@@ -53,6 +53,7 @@ private slots:
 public slots:
     void openNewGameboard();
     void openExistingGameboard();
+    //void runThisInSecondTabheheh();
 };
 
 
