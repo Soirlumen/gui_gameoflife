@@ -1,0 +1,27 @@
+# ninja log v6
+1615	11839	7780164200000000	CMakeFiles/hz.dir/game.cpp.obj	7e0d7ae6584fd5e0
+372	6411	7780136740000000	CMakeFiles/hz.dir/helper.cpp.obj	9bccd0d527de2fc
+1886	2011	7780009980000000	hz_autogen/EWIEGA46WW/qrc_resources.cpp	f1770b6501dcff1
+1886	2011	7780009980000000	D:/fjfi/6-semeter/prc2/skladka/hzgit/gui_gameoflife/hz_autogen/EWIEGA46WW/qrc_resources.cpp	f1770b6501dcff1
+2076	2270	7780009980000000	CMakeFiles/hz.dir/hz_autogen/EWIEGA46WW/qrc_resources.cpp.obj	b112e0004f7f5632
+36	1600	7780164180000000	D:/fjfi/6-semeter/prc2/skladka/hzgit/gui_gameoflife/hz_autogen/timestamp	6cd1f04a85a012b1
+1751	9528	7780097520000000	CMakeFiles/hz.dir/logic.cpp.obj	a982354007f0ec40
+36	1600	7780164180000000	hz_autogen/mocs_compilation.cpp	6cd1f04a85a012b1
+1629	9708	7780164200000000	CMakeFiles/hz.dir/setiings.cpp.obj	462c91e890a53d38
+1608	10419	7780164200000000	CMakeFiles/hz.dir/main.cpp.obj	3c0005795f966827
+1622	9651	7780164200000000	CMakeFiles/hz.dir/symboloflife.cpp.obj	4f3595695992c212
+36	1600	7780164180000000	hz_autogen/timestamp	6cd1f04a85a012b1
+1644	9670	7780164200000000	CMakeFiles/hz.dir/paramofnewgame.cpp.obj	2c2bf71558165ebc
+11961	13563	7780164300000000	hz.exe	bb4c0f94f02dcf9d
+1637	11961	7780164200000000	CMakeFiles/hz.dir/drawgame.cpp.obj	78cb96fa576f2ada
+36	1600	7780164180000000	D:/fjfi/6-semeter/prc2/skladka/hzgit/gui_gameoflife/hz_autogen/mocs_compilation.cpp	6cd1f04a85a012b1
+1601	11476	7780164200000000	CMakeFiles/hz.dir/hz_autogen/mocs_compilation.cpp.obj	1c38fa010cc5c409
+47	426	7780165012500000	hz_autogen/timestamp	6cd1f04a85a012b1
+47	426	7780165012500000	hz_autogen/mocs_compilation.cpp	6cd1f04a85a012b1
+47	426	7780165012500000	D:/fjfi/6-semeter/prc2/skladka/hzgit/gui_gameoflife/hz_autogen/timestamp	6cd1f04a85a012b1
+47	426	7780165012500000	D:/fjfi/6-semeter/prc2/skladka/hzgit/gui_gameoflife/hz_autogen/mocs_compilation.cpp	6cd1f04a85a012b1
+427	5887	7780165020000000	CMakeFiles/hz.dir/symboloflife.cpp.obj	4f3595695992c212
+445	6003	7780165020000000	CMakeFiles/hz.dir/paramofnewgame.cpp.obj	2c2bf71558165ebc
+433	6177	7780165020000000	CMakeFiles/hz.dir/setiings.cpp.obj	462c91e890a53d38
+439	8056	7780165020000000	CMakeFiles/hz.dir/drawgame.cpp.obj	78cb96fa576f2ada
+8057	9477	7780165100000000	hz.exe	bb4c0f94f02dcf9d

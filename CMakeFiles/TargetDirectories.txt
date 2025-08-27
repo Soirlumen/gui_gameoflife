@@ -1,0 +1,9 @@
+D:/fjfi/6-semeter/prc2/skladka/hzgit/gui_gameoflife/CMakeFiles/hz.dir
+D:/fjfi/6-semeter/prc2/skladka/hzgit/gui_gameoflife/CMakeFiles/edit_cache.dir
+D:/fjfi/6-semeter/prc2/skladka/hzgit/gui_gameoflife/CMakeFiles/rebuild_cache.dir
+D:/fjfi/6-semeter/prc2/skladka/hzgit/gui_gameoflife/CMakeFiles/list_install_components.dir
+D:/fjfi/6-semeter/prc2/skladka/hzgit/gui_gameoflife/CMakeFiles/install.dir
+D:/fjfi/6-semeter/prc2/skladka/hzgit/gui_gameoflife/CMakeFiles/install/local.dir
+D:/fjfi/6-semeter/prc2/skladka/hzgit/gui_gameoflife/CMakeFiles/install/strip.dir
+D:/fjfi/6-semeter/prc2/skladka/hzgit/gui_gameoflife/CMakeFiles/hz_autogen_timestamp_deps.dir
+D:/fjfi/6-semeter/prc2/skladka/hzgit/gui_gameoflife/CMakeFiles/hz_autogen.dir

@@ -19,9 +19,7 @@ public:
     void set(int x, int y, Cell _c);
     int counting_neighbours(int x, int y) const;
     Cell new_state(int x, int y) const;
-    CMatrix cut() const;
 };
-
 
 class Game
 {
@@ -35,8 +33,6 @@ public:
     CMatrix new_generation();
     void life(int czas);
     ~Game();
-
-
 };
 
 

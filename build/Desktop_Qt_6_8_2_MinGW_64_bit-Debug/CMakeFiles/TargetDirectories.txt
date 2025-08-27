@@ -1,9 +1,0 @@
-G:/111vse/111fjfi/3rok/gui/zapocet/gui_gameoflife/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/CMakeFiles/hz.dir
-G:/111vse/111fjfi/3rok/gui/zapocet/gui_gameoflife/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/CMakeFiles/edit_cache.dir
-G:/111vse/111fjfi/3rok/gui/zapocet/gui_gameoflife/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/CMakeFiles/rebuild_cache.dir
-G:/111vse/111fjfi/3rok/gui/zapocet/gui_gameoflife/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/CMakeFiles/list_install_components.dir
-G:/111vse/111fjfi/3rok/gui/zapocet/gui_gameoflife/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/CMakeFiles/install.dir
-G:/111vse/111fjfi/3rok/gui/zapocet/gui_gameoflife/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/CMakeFiles/install/local.dir
-G:/111vse/111fjfi/3rok/gui/zapocet/gui_gameoflife/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/CMakeFiles/install/strip.dir
-G:/111vse/111fjfi/3rok/gui/zapocet/gui_gameoflife/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/CMakeFiles/hz_autogen_timestamp_deps.dir
-G:/111vse/111fjfi/3rok/gui/zapocet/gui_gameoflife/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/CMakeFiles/hz_autogen.dir

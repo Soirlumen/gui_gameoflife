@@ -85,10 +85,19 @@ void Drawgame::setupMenu()
     actRunGame->setToolTip(tr("open Game from this gameboard"));
     actRunGame->setStatusTip(tr("open Game from this gameboard"));
 
+    actOpenPattern=new QAction(tr("&Open pattern..."));
+    actOpenPattern->setToolTip(tr("Open pattern and insert it into gameboard"));
+    actOpenPattern->setStatusTip(tr("Open pattern and insert it into gameboard"));
+
+    actRunGame->setEnabled(false);
+    actSaveGame->setEnabled(false);
+    actOpenPattern->setEnabled(false);
+
     savemennu=new QMenu(tr("&Game"));
-    savemennu->addAction(actSaveGame);
     savemennu->addAction(actNewGame);
     savemennu->addAction(actOpenGame);
+    savemennu->addAction(actSaveGame);
+    savemennu->addAction(actOpenPattern);
     savemennu->addAction(actRunGame);
     mnuBar=new QMenuBar(this);
     mnuBar->autoFillBackground();
@@ -143,7 +152,7 @@ void Drawgame::drawGrid()
         cellRects[i].resize(y);
         for (int j = 0; j < y; ++j) {
             QGraphicsRectItem* rect = scene->addRect(
-                j * size_of_square, i * size_of_square, size_of_square, size_of_square,
+                j * SIZE_OF_SQUARE, i * SIZE_OF_SQUARE, SIZE_OF_SQUARE, SIZE_OF_SQUARE,
                 QPen(Qt::black), QBrush(Qt::gray));
             rect->setAcceptedMouseButtons(Qt::LeftButton);
             cellRects[i][j] = rect;
@@ -152,11 +161,14 @@ void Drawgame::drawGrid()
     }
 }
 
+// drawgame.cpp
 void Drawgame::setupConnects()
 {
- connect(actSaveGame,SIGNAL(triggered()),this,SLOT(writeFile()));
- connect(actNewGame,SIGNAL(triggered()),this, SLOT(openNewGameboard()));
- connect(actOpenGame,SIGNAL(triggered()),this,SLOT(openExistingGameboard()));
+    connect(actSaveGame, &QAction::triggered, this, &Drawgame::writeFile);
+    connect(actNewGame, &QAction::triggered, this, &Drawgame::openNewGameboard);
+    connect(actOpenGame, &QAction::triggered, this, &Drawgame::openExistingGameboard);
+    connect(actOpenPattern, &QAction::triggered, this, &Drawgame::insertPattern);
+    connect(actRunGame, &QAction::triggered, this, &Drawgame::runThisInSecondTabheheh);
 }
 
 void Drawgame::openNewGameboard()
@@ -164,6 +176,9 @@ void Drawgame::openNewGameboard()
     ParamOfNewGame PoNG;
     if(PoNG.exec()==QDialog::Accepted){
     updateGameboard(PoNG.getSymbol(),PoNG.getHeight(),PoNG.getWidth());
+        actOpenPattern->setEnabled(true);
+    actRunGame->setEnabled(true);
+    actSaveGame->setEnabled(true);
     }
     else{
         qDebug()<<"ten obrazek zase neni konzistentni a jsme v pytli";
@@ -198,7 +213,6 @@ void Drawgame::openExistingGameboard()
             }
             CMatrix field=convert_SQ_toC(read_file2(fileName),symbol);
             x=field.size();
-
             //field[0].pop_back(); //protože z nějakého důvodu se při uložení txt souboru uloží prázdný řádek navíc achjo
             y=field[0].size();
             if(test_matrix_consistency(field)){
@@ -211,7 +225,7 @@ void Drawgame::openExistingGameboard()
                     for (int j = 0; j < y; ++j) {
                         bool isLive = (i < field.size() && j < field[i].size()&&field[i][j]==ALIVE);
                         QGraphicsRectItem* rect = scene->addRect(
-                            j * size_of_square, i * size_of_square, size_of_square, size_of_square,
+                            j * SIZE_OF_SQUARE, i * SIZE_OF_SQUARE, SIZE_OF_SQUARE, SIZE_OF_SQUARE,
                             QPen(Qt::black), QBrush(isLive ? Qt::white : Qt::gray));
                         rect->setAcceptedMouseButtons(Qt::LeftButton);
                         cellRects[i][j] = rect;
@@ -222,7 +236,10 @@ void Drawgame::openExistingGameboard()
                 // Aktualizace scény a zobrazení
                 scene->update();
                 view->setSceneRect(scene->itemsBoundingRect());
-                view->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
+                //view->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
+                actRunGame->setEnabled(true);
+                actSaveGame->setEnabled(true);
+                actOpenPattern->setEnabled(true);
             }else{
                 qDebug()<<"ten obrazek zase neni konzistentni a jsme v pytli";
                 QMessageBox::warning(this,tr("eror"),tr("myslim ze tvuj textak není obdelnik, ted nevim co se stane lol"));
@@ -230,8 +247,72 @@ void Drawgame::openExistingGameboard()
         }
 }
 
+void Drawgame::insertPattern()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open pattern"),
+                                                    workdir,
+                                                    tr("Plain text (*.txt)"));
+    if (fileName.isEmpty()) return;
+
+    QFileInfo info(fileName);
+    workdir = info.absoluteDir().absolutePath();
+
+    symboloflife SoF;
+    if (SoF.exec() != QDialog::Accepted) {
+        QMessageBox::warning(this, tr("eror"), tr("Cancelnuto, nic nebylo vloženo"));
+        return;
+    }
+    char sym = SoF.getSymbolofLife();
+    if (sym == '\0') {
+        QMessageBox::warning(this, tr("eror"), tr("Znak nesmí být prázdný"));
+        return;
+    }
+
+    CMatrix field = convert_SQ_toC(read_file2(fileName), sym);
+
+    CMatrix cropped = cut(field);
+
+    if (cropped.empty()) {
+        QMessageBox::warning(this, tr("prazden"), tr("Pattern je prázdný (jen mrtvé buňky)"));
+        return;
+    }
+
+    currentPattern = cropped;
+    insertingPattern = true;
+}
+
+void Drawgame::runThisInSecondTabheheh()
+{
+emit sendMatrix(vec_to_QStr(symbol),symbol);
+}
+
 bool Drawgame::eventFilter(QObject* obj, QEvent* event)
 {
+    // 🔹 speciální větev: jsme v režimu vkládání vzoru
+    if (insertingPattern && obj == view->viewport() && event->type() == QEvent::MouseButtonPress) {
+        QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
+        QPointF scenePos = view->mapToScene(mouseEvent->pos());
+
+        int gridX = scenePos.y() / SIZE_OF_SQUARE;
+        int gridY = scenePos.x() / SIZE_OF_SQUARE;
+
+        for (int i = 0; i < (int)currentPattern.size(); ++i) {
+            for (int j = 0; j < (int)currentPattern[i].size(); ++j) {
+                int xx = gridX + i;
+                int yy = gridY + j;
+                if (xx < x && yy < y) {
+                    bool alive = (currentPattern[i][j] == ALIVE);
+                    cellRects[xx][yy]->setBrush(alive ? QBrush(Qt::white) : QBrush(Qt::gray));
+                    cellRects[xx][yy]->setData(0, alive);
+                }
+            }
+        }
+
+        scene->update();
+        insertingPattern = false;   // vypnout po jednom vložení (pokud chceš, může zůstat true)
+        return true;                // událost jsme zpracovali
+    }
+
     if (obj == view->viewport() && event->type() == QEvent::MouseButtonPress) {
         QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
         QPointF scenePos = view->mapToScene(mouseEvent->pos());
@@ -254,3 +335,5 @@ bool Drawgame::eventFilter(QObject* obj, QEvent* event)
     }
     return QWidget::eventFilter(obj, event);
 }
+
+

@@ -15,6 +15,7 @@
 #include <QFileInfo>
 #include <QFileDialog>
 #include <QDebug>
+#include <QApplication>
 
 void game::setupwindow()
 {
@@ -165,24 +166,7 @@ void game::openGame()
             QMessageBox::warning(this,tr("eror"),tr("cancelnul jsi to, nic nebylo nahrato"));
             return;
         }
-        CMatrix field=convert_SQ_toC(read_file2(fileName),symbolforlivecell);
-        sizeX=field.size();
-        //field[0].pop_back(); //protože z nějakého důvodu se při uložení txt souboru uloží prázdný řádek navíc achjo
-        sizeY=field[0].size();
-        if(test_matrix_consistency(field)){
-            if(thatGame==nullptr){
-                thatGame = new Game(field);
-            }
-            else{
-                thatGame->setGame(field);
-            }
-            paint(thatGame->get_actual_board());
-            resizeWindow();
-            actOpenSettings->setEnabled(true);
-        }else{
-            qDebug()<<"ten obrazek zase neni konzistentni a jsme v pytli";
-            QMessageBox::warning(this,tr("eror"),tr("myslim ze tvuj textak není obdelnik, ted nevim co se stane lol"));
-        }
+        loadGame(read_file2(fileName),symbolforlivecell);
     }
 }
 
@@ -207,27 +191,60 @@ void game::openSetting()
 
 void game::newGameboard()
 {
+    if(dwidget!=nullptr){
+        dwidget->activateWindow();
+        return;
+    }
     dwidget=new Drawgame(this,Qt::Window);
     dwidget->setAttribute(Qt::WA_DeleteOnClose);
     dwidget->show();
+    connect(dwidget, &Drawgame::sendMatrix, this, &game::receiveMatrix);
     connect(dwidget, &QWidget::destroyed, this, [this]() {dwidget = nullptr; //this->setCentralWidget(view);
     });
- /*   ParamOfNewGame PoNG;
-    if(PoNG.exec()==QDialog::Accepted){
-
-        dwidget=new Drawgame(nullptr,PoNG.getSymbol(),PoNG.getHeight(),PoNG.getWidth());
-        dwidget->show();
-        //this->setCentralWidget(dwidget);
-        connect(dwidget, &QWidget::destroyed, this, [this]() {dwidget = nullptr; //this->setCentralWidget(view);
-        });
-        }
-    else{
-        qDebug()<<"ten obrazek zase neni konzistentni a jsme v pytli";
-        QMessageBox::warning(this,tr("eror"),tr("nevlozil jsi udaje, nic se nestalo"));
-    }
-*/
+    //connect(this, &QWidget::destroyed, dwidget, &QWidget::close);
 }
 
+void game::loadGame(const SQMatrix &m, char symbol)
+{
+    {
+        CMatrix field = convert_SQ_toC(m, symbol);
+        sizeX = field.size();
+        sizeY = field[0].size();
+
+        if (test_matrix_consistency(field)) {
+            if (thatGame == nullptr) {
+                thatGame = new Game(field);
+            } else {
+                thatGame->setGame(field);
+            }
+            paint(thatGame->get_actual_board());
+            resizeWindow();
+            actOpenSettings->setEnabled(true);
+        } else {
+            qDebug() << "ten obrazek zase neni konzistentni a jsme v pytli";
+            QMessageBox::warning(this, tr("eror"), tr("myslim ze tvuj textak není obdelnik, ted nevim co se stane lol"));
+        }
+    }
+}
+
+void game::receiveMatrix(const QString &m, char symbol)
+{
+    qDebug() << "Received matrix with symbol:" << symbol << "and content:\n" << m;
+    SQMatrix lines;
+    for (const QString &line : m.split('\n', Qt::SkipEmptyParts)) {
+        if (!line.isEmpty()) {
+            lines.push_back(line);
+        }
+    }
+    if (lines.empty()) {
+        qDebug() << "Matrix is empty after parsing";
+        QMessageBox::warning(this, tr("Chyba"), tr("Přenesená matice je prázdná"));
+        return;
+    }
+    loadGame(lines, symbol);
+    actLetTheLifeGo->setEnabled(true);
+    actNextGeneration->setEnabled(true);
+}
 void game::setupConnections()
 {
     connect(actQuit,SIGNAL(triggered()),this, SLOT(close()));

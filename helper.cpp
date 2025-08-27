@@ -104,12 +104,16 @@ SQMatrix read_file2(QString filename)
     {
         while(!file.atEnd())
         {
-           vec.push_back(file.readLine().trimmed());
+            QString line = file.readLine();
+            line.chop(1); // odstraní \n nebo \r
+            while (line.size() < 50) line += "0"; // doplnit nuly na správnou délku
+            vec.push_back(line);
         }
     }
     return vec;
-
 }
+
+
 
 CMatrix convert_SQ_toC(const SQMatrix s, char ch)
 {
@@ -173,3 +177,38 @@ bool test_matrix_consistency(CMatrix c)
     return true;
 }
 
+CMatrix cut(const CMatrix& c) {
+    int rows = c.size();
+    if (rows == 0) return CMatrix();
+
+    int cols = c[0].size();
+    if (cols == 0) return CMatrix();
+
+    int min_x = rows, max_x = -1;
+    int min_y = cols, max_y = -1;
+
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            if (c[i][j] == ALIVE) {
+                if (i < min_x) min_x = i;
+                if (i > max_x) max_x = i;
+                if (j < min_y) min_y = j;
+                if (j > max_y) max_y = j;
+            }
+        }
+    }
+
+    if (max_x < min_x || max_y < min_y) {
+        return CMatrix(); // všechno mrtvé
+    }
+
+    CMatrix result(max_x - min_x + 1, std::vector<Cell>(max_y - min_y + 1));
+
+    for (int i = min_x; i <= max_x; ++i) {
+        for (int j = min_y; j <= max_y; ++j) {
+            result[i - min_x][j - min_y] = c[i][j];
+        }
+    }
+
+    return result;
+}

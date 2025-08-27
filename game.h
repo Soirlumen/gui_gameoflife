@@ -74,5 +74,8 @@ public slots:
     void openGame();
     void openSetting();
     void newGameboard();
+    void loadGame(const SQMatrix &m, char symbol);
+private slots:
+     void receiveMatrix(const QString &m, char symbol);
 };
 #endif // GAME_H

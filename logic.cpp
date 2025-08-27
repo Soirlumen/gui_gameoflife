@@ -126,37 +126,6 @@ void Game::life(int czas)
     }
 }
 
-CMatrix Gra_życia::cut() const{
-    int min_x = width, max_x = -1;
-    int min_y = height, max_y = -1;
-
-    for (int i = 0; i < width; ++i) {
-        for (int j = 0; j < height; ++j) {
-            if (cell_gameboard[i][j] == ALIVE) {
-                if (i < min_x) min_x = i;
-                if (i > max_x) max_x = i;
-                if (j < min_y) min_y = j;
-                if (j > max_y) max_y = j;
-            }
-        }
-    }
-
-    if (max_x < min_x || max_y < min_y) {
-        return CMatrix();
-    }
-
-    CMatrix result(max_x - min_x + 1, std::vector<Cell>(max_y - min_y + 1));
-
-    for (int i = min_x; i <= max_x; ++i) {
-        for (int j = min_y; j <= max_y; ++j) {
-            result[i - min_x][j - min_y] = cell_gameboard[i][j];
-        }
-    }
-
-    return result;
-
-}
-
 Game::~Game()
 {
 }
