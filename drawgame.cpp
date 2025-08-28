@@ -17,22 +17,26 @@
 QString Drawgame::vec_to_QStr(char ch)
 {
     QString result;
-    for(int i=0;i<cellRects.size();i++){
-        for(int j=0;j<cellRects[0].size();j++){
-            if(cellRects[i][j]->data(0).toBool()){
+    for (int i = 0; i < cellRects.size(); i++)
+    {
+        for (int j = 0; j < cellRects[0].size(); j++)
+        {
+            if (cellRects[i][j]->data(0).toBool())
+            {
                 result.append(ch);
             }
-            else{
+            else
+            {
                 result.append("0");
             }
         }
         result.append("\n");
     }
-    qDebug()<<result;
+    qDebug() << result;
     return result;
 }
 
-Drawgame::Drawgame(QWidget *parent,Qt::WindowFlags f): QWidget(parent,f), ui(new Ui::Drawgame),symbol('#'),x(480),y(640)
+Drawgame::Drawgame(QWidget *parent, Qt::WindowFlags f) : QWidget(parent, f), ui(new Ui::Drawgame), symbol('#'), x(480), y(640)
 {
     ui->setupUi(this);
     setupScene();
@@ -47,11 +51,11 @@ Drawgame::~Drawgame()
 
 void Drawgame::setupScene()
 {
-    scene=new QGraphicsScene(this);
-    view=new QGraphicsView(scene,this);
+    scene = new QGraphicsScene(this);
+    view = new QGraphicsView(scene, this);
     view->viewport()->installEventFilter(this);
 
-scene->update();    
+    scene->update();
 }
 void Drawgame::setupMenu()
 {
@@ -95,10 +99,10 @@ void Drawgame::setupMenu()
     mnuBar->addMenu(editmenu);
     mnuBar->addMenu(gamemenu);
 
-    statusLabel=new QLabel(tr("ready"),this);
+    statusLabel = new QLabel(tr("ready"), this);
     statusLabel->setStyleSheet("QLabel {background-color : darkgray;}");
 
-    QVBoxLayout* layout = new QVBoxLayout(this);
+    QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setMenuBar(mnuBar);
     layout->addWidget(view);
     layout->addWidget(statusLabel);
@@ -110,9 +114,9 @@ void Drawgame::setupMenu()
 
 void Drawgame::updateGameboard(char newsym, int newh, int neww)
 {
-    symbol=newsym;
-    x=newh;
-    y=neww;
+    symbol = newsym;
+    x = newh;
+    y = neww;
     scene->clear();
     cellRects.clear();
     drawGrid();
@@ -123,35 +127,38 @@ void Drawgame::updateGameboard(char newsym, int newh, int neww)
 void Drawgame::writeFile()
 {
     QString filePath = QFileDialog::getSaveFileName(
-            this,
-            "Save As",
-            QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation),
-            "Text Files (*.txt)"
-            );
-        if (!filePath.isEmpty()) {
-            QFile file(filePath);
-            if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                QTextStream stream(&file);
-                stream << vec_to_QStr(symbol);
-                file.close();
-                statusLabel->setText(tr("Gameboard saved successfully"));
-                QTimer::singleShot(3000, this, [this]() {
-                    statusLabel->setText(tr("Ready"));
-                });
-            }
-            else
-            {qDebug() << "Error opening file for writing:" << file.errorString();
-            }
+        this,
+        "Save As",
+        QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation),
+        "Text Files (*.txt)");
+    if (!filePath.isEmpty())
+    {
+        QFile file(filePath);
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+        {
+            QTextStream stream(&file);
+            stream << vec_to_QStr(symbol);
+            file.close();
+            statusLabel->setText(tr("Gameboard saved successfully"));
+            QTimer::singleShot(3000, this, [this]()
+                               { statusLabel->setText(tr("Ready")); });
         }
+        else
+        {
+            qDebug() << "Error opening file for writing:" << file.errorString();
+        }
+    }
 }
 
 void Drawgame::drawGrid()
 {
     cellRects.resize(x);
-    for (int i = 0; i < x; ++i) {
+    for (int i = 0; i < x; ++i)
+    {
         cellRects[i].resize(y);
-        for (int j = 0; j < y; ++j) {
-            QGraphicsRectItem* rect = scene->addRect(
+        for (int j = 0; j < y; ++j)
+        {
+            QGraphicsRectItem *rect = scene->addRect(
                 j * SIZE_OF_SQUARE, i * SIZE_OF_SQUARE, SIZE_OF_SQUARE, SIZE_OF_SQUARE,
                 QPen(Qt::black), QBrush(Qt::gray));
             rect->setAcceptedMouseButtons(Qt::LeftButton);
@@ -173,17 +180,18 @@ void Drawgame::setupConnects()
 void Drawgame::openNewGameboard()
 {
     ParamOfNewGame PoNG;
-    if(PoNG.exec()==QDialog::Accepted){
-    updateGameboard(PoNG.getSymbol(),PoNG.getHeight(),PoNG.getWidth());
+    if (PoNG.exec() == QDialog::Accepted)
+    {
+        updateGameboard(PoNG.getSymbol(), PoNG.getHeight(), PoNG.getWidth());
         actOpenPattern->setEnabled(true);
-    actRunGame->setEnabled(true);
-    actSaveGame->setEnabled(true);
-    statusLabel->setText(tr("Gameboard created successfully"));
-    QTimer::singleShot(3000, this, [this]() {
-        statusLabel->setText(tr("Ready"));
-    });
+        actRunGame->setEnabled(true);
+        actSaveGame->setEnabled(true);
+        statusLabel->setText(tr("Gameboard created successfully"));
+        QTimer::singleShot(3000, this, [this]()
+                           { statusLabel->setText(tr("Ready")); });
     }
-    else{
+    else
+    {
     }
 }
 
@@ -192,64 +200,73 @@ void Drawgame::openExistingGameboard()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                     workdir,
                                                     tr("Plain text (*.txt)"));
-    if(!fileName.isEmpty()){
+    if (!fileName.isEmpty())
+    {
         QFileInfo info(fileName);
-        workdir=info.absoluteDir().absolutePath();
+        workdir = info.absoluteDir().absolutePath();
         symboloflife SoF;
-        if(SoF.exec()==QDialog::Accepted){
-            qDebug()<<"tady to zacina";
-            char pom=SoF.getSymbolofLife();
-            //TODO: opravit aby to kontrolovalo že se nepassne prázdný qstring
-            qDebug()<<pom;
-            if(pom=='\0'){
-                qDebug()<<"dojde to az sem?";
-                QMessageBox::warning(this,tr("eror"),tr("vlozil jsi prazdny znak to se nepocita, nic nebylo nahrato"));
+        if (SoF.exec() == QDialog::Accepted)
+        {
+            qDebug() << "tady to zacina";
+            char pom = SoF.getSymbolofLife();
+            // TODO: opravit aby to kontrolovalo že se nepassne prázdný qstring
+            qDebug() << pom;
+            if (pom == '\0')
+            {
+                qDebug() << "dojde to az sem?";
+                QMessageBox::warning(this, tr("eror"), tr("vlozil jsi prazdny znak to se nepocita, nic nebylo nahrato"));
                 return;
             }
-            qDebug()<<"anebo sem?";
-            symbol=pom;}
-            else{
-                QMessageBox::warning(this,tr("eror"),tr("cancelnul jsi to, nic nebylo nahrato"));
-                return;
-            }
-            CMatrix field=convert_SQ_toC(read_file2(fileName),symbol);
-            x=field.size();
-            //field[0].pop_back(); //protože z nějakého důvodu se při uložení txt souboru uloží prázdný řádek navíc achjo
-            y=field[0].size();
-            if(test_matrix_consistency(field)){
-                scene->clear();
-                cellRects.clear();
-                //vykreslit plochu a tam kde je živá buňka, tam nastavit živou buňku
-                cellRects.resize(x);
-                for (int i = 0; i < x; ++i) {
-                    cellRects[i].resize(y);
-                    for (int j = 0; j < y; ++j) {
-                        bool isLive = (i < field.size() && j < field[i].size()&&field[i][j]==ALIVE);
-                        QGraphicsRectItem* rect = scene->addRect(
-                            j * SIZE_OF_SQUARE, i * SIZE_OF_SQUARE, SIZE_OF_SQUARE, SIZE_OF_SQUARE,
-                            QPen(Qt::black), QBrush(isLive ? Qt::white : Qt::gray));
-                        rect->setAcceptedMouseButtons(Qt::LeftButton);
-                        cellRects[i][j] = rect;
-                        rect->setData(0, isLive);
-                    }
-                }
-
-                // Aktualizace scény a zobrazení
-                scene->update();
-                view->setSceneRect(scene->itemsBoundingRect());
-                //view->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
-                actRunGame->setEnabled(true);
-                actSaveGame->setEnabled(true);
-                actOpenPattern->setEnabled(true);
-                statusLabel->setText(tr("Gameboard loaded successfully"));
-                QTimer::singleShot(3000, this, [this]() {
-                    statusLabel->setText(tr("Ready"));
-                });
-            }else{
-                qDebug()<<"ten obrazek zase neni konzistentni a jsme v pytli";
-                QMessageBox::warning(this,tr("eror"),tr("myslim ze tvuj textak není obdelnik, ted nevim co se stane lol"));
-            }
+            qDebug() << "anebo sem?";
+            symbol = pom;
         }
+        else
+        {
+            QMessageBox::warning(this, tr("eror"), tr("cancelnul jsi to, nic nebylo nahrato"));
+            return;
+        }
+        CMatrix field = convert_SQ_toC(read_file2(fileName), symbol);
+        x = field.size();
+        // field[0].pop_back(); //protože z nějakého důvodu se při uložení txt souboru uloží prázdný řádek navíc achjo
+        y = field[0].size();
+        if (test_matrix_consistency(field))
+        {
+            scene->clear();
+            cellRects.clear();
+            // vykreslit plochu a tam kde je živá buňka, tam nastavit živou buňku
+            cellRects.resize(x);
+            for (int i = 0; i < x; ++i)
+            {
+                cellRects[i].resize(y);
+                for (int j = 0; j < y; ++j)
+                {
+                    bool isLive = (i < field.size() && j < field[i].size() && field[i][j] == ALIVE);
+                    QGraphicsRectItem *rect = scene->addRect(
+                        j * SIZE_OF_SQUARE, i * SIZE_OF_SQUARE, SIZE_OF_SQUARE, SIZE_OF_SQUARE,
+                        QPen(Qt::black), QBrush(isLive ? Qt::white : Qt::gray));
+                    rect->setAcceptedMouseButtons(Qt::LeftButton);
+                    cellRects[i][j] = rect;
+                    rect->setData(0, isLive);
+                }
+            }
+
+            // Aktualizace scény a zobrazení
+            scene->update();
+            view->setSceneRect(scene->itemsBoundingRect());
+            // view->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
+            actRunGame->setEnabled(true);
+            actSaveGame->setEnabled(true);
+            actOpenPattern->setEnabled(true);
+            statusLabel->setText(tr("Gameboard loaded successfully"));
+            QTimer::singleShot(3000, this, [this]()
+                               { statusLabel->setText(tr("Ready")); });
+        }
+        else
+        {
+            qDebug() << "ten obrazek zase neni konzistentni a jsme v pytli";
+            QMessageBox::warning(this, tr("eror"), tr("myslim ze tvuj textak není obdelnik, ted nevim co se stane lol"));
+        }
+    }
 }
 
 void Drawgame::insertPattern()
@@ -257,18 +274,21 @@ void Drawgame::insertPattern()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open pattern"),
                                                     workdir,
                                                     tr("Plain text (*.txt)"));
-    if (fileName.isEmpty()) return;
+    if (fileName.isEmpty())
+        return;
 
     QFileInfo info(fileName);
     workdir = info.absoluteDir().absolutePath();
 
     symboloflife SoF;
-    if (SoF.exec() != QDialog::Accepted) {
+    if (SoF.exec() != QDialog::Accepted)
+    {
         QMessageBox::warning(this, tr("eror"), tr("Cancelnuto, nic nebylo vloženo"));
         return;
     }
     char sym = SoF.getSymbolofLife();
-    if (sym == '\0') {
+    if (sym == '\0')
+    {
         QMessageBox::warning(this, tr("eror"), tr("Znak nesmí být prázdný"));
         return;
     }
@@ -277,7 +297,8 @@ void Drawgame::insertPattern()
 
     CMatrix cropped = cut(field);
 
-    if (cropped.empty()) {
+    if (cropped.empty())
+    {
         QMessageBox::warning(this, tr("prazden"), tr("Pattern je prázdný (jen mrtvé buňky)"));
         return;
     }
@@ -288,28 +309,31 @@ void Drawgame::insertPattern()
 
 void Drawgame::runThisInSecondTabheheh()
 {
-emit sendMatrix(vec_to_QStr(symbol),symbol);
+    emit sendMatrix(vec_to_QStr(symbol), symbol);
     statusLabel->setText(tr("Gameboard emited into game"));
-    QTimer::singleShot(3000, this, [this]() {
-        statusLabel->setText(tr("Ready"));
-    });
+    QTimer::singleShot(3000, this, [this]()
+                       { statusLabel->setText(tr("Ready")); });
 }
 
-bool Drawgame::eventFilter(QObject* obj, QEvent* event)
+bool Drawgame::eventFilter(QObject *obj, QEvent *event)
 {
     // vložíme pattern
-    if (insertingPattern && obj == view->viewport() && event->type() == QEvent::MouseButtonPress) {
-        QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
+    if (insertingPattern && obj == view->viewport() && event->type() == QEvent::MouseButtonPress)
+    {
+        QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
         QPointF scenePos = view->mapToScene(mouseEvent->pos());
 
         int gridX = scenePos.y() / SIZE_OF_SQUARE;
         int gridY = scenePos.x() / SIZE_OF_SQUARE;
 
-        for (int i = 0; i < (int)currentPattern.size(); ++i) {
-            for (int j = 0; j < (int)currentPattern[i].size(); ++j) {
+        for (int i = 0; i < (int)currentPattern.size(); ++i)
+        {
+            for (int j = 0; j < (int)currentPattern[i].size(); ++j)
+            {
                 int xx = gridX + i;
                 int yy = gridY + j;
-                if (xx < x && yy < y) {
+                if (xx < x && yy < y)
+                {
                     bool alive = (currentPattern[i][j] == ALIVE);
                     cellRects[xx][yy]->setBrush(alive ? QBrush(Qt::white) : QBrush(Qt::gray));
                     cellRects[xx][yy]->setData(0, alive);
@@ -319,25 +343,29 @@ bool Drawgame::eventFilter(QObject* obj, QEvent* event)
         scene->update();
         insertingPattern = false;
         statusLabel->setText(tr("Pattern inserted"));
-        QTimer::singleShot(3000, this, [this]() {
-            statusLabel->setText(tr("Ready"));
-        });
+        QTimer::singleShot(3000, this, [this]()
+                           { statusLabel->setText(tr("Ready")); });
         return true;
     }
 
-    if (obj == view->viewport() && event->type() == QEvent::MouseButtonPress) {
-        QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
+    if (obj == view->viewport() && event->type() == QEvent::MouseButtonPress)
+    {
+        QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
         QPointF scenePos = view->mapToScene(mouseEvent->pos());
-        QGraphicsItem* item = scene->itemAt(scenePos, QTransform());
+        QGraphicsItem *item = scene->itemAt(scenePos, QTransform());
 
-        if (item && item->type() == QGraphicsRectItem::Type) {
-            QGraphicsRectItem* rect = static_cast<QGraphicsRectItem*>(item);
+        if (item && item->type() == QGraphicsRectItem::Type)
+        {
+            QGraphicsRectItem *rect = static_cast<QGraphicsRectItem *>(item);
             bool isWhite = rect->data(0).toBool();
 
-            if (isWhite) {
+            if (isWhite)
+            {
                 rect->setBrush(QBrush(Qt::gray));
                 rect->setData(0, false);
-            } else {
+            }
+            else
+            {
                 rect->setBrush(QBrush(Qt::white));
                 rect->setData(0, true);
             }
@@ -348,15 +376,17 @@ bool Drawgame::eventFilter(QObject* obj, QEvent* event)
     return QWidget::eventFilter(obj, event);
 }
 
-void Drawgame::closeEvent(QCloseEvent *event) {
+void Drawgame::closeEvent(QCloseEvent *event)
+{
 
-    //pro případ že se zavře hlavní okno, zavře se i widget
-    if (parentWidget() && !parentWidget()->isVisible()) {
+    // pro případ že se zavře hlavní okno, zavře se i widget
+    if (parentWidget() && !parentWidget()->isVisible())
+    {
         event->accept();
         return;
     }
-    if(QMessageBox::question(this, tr("Sure to close??"), tr("Unsaved gameboard will be discarded..."))
-        == QMessageBox::StandardButton::No){
+    if (QMessageBox::question(this, tr("Sure to close??"), tr("Unsaved gameboard will be discarded...")) == QMessageBox::StandardButton::No)
+    {
         event->ignore();
         return;
     }

@@ -45,15 +45,15 @@ void game::setupwindow()
     actQuit->setStatusTip(tr("Exits the application"));
     actQuit->setIcon(iconQuit);
 
-    actopengamefromtxt=new QAction(tr("&Open..."));
+    actopengamefromtxt = new QAction(tr("&Open..."));
     actopengamefromtxt->setToolTip(tr("open .txt file with game"));
     actopengamefromtxt->setStatusTip(tr("open from file manager a .txt file with game"));
 
-    actOpenSettings=new QAction(tr("&Settings..."));
+    actOpenSettings = new QAction(tr("&Settings..."));
     actOpenSettings->setToolTip(tr("settings of a game board"));
     actOpenSettings->setStatusTip(tr("settings of a game board"));
 
-    actSaveGameboard=new QAction(tr("&New..."));
+    actSaveGameboard = new QAction(tr("&New..."));
     actSaveGameboard->setToolTip(tr("draw your own game"));
     actSaveGameboard->setStatusTip(tr("draw your own game and save it and so on"));
 
@@ -64,7 +64,7 @@ void game::setupwindow()
     toolbar->addAction(actLetTheLifeStop);
     this->addToolBar(toolbar);
 
-    openmennu=new QMenu(tr("&Game"));
+    openmennu = new QMenu(tr("&Game"));
     openmennu->addAction(actSaveGameboard);
     openmennu->addAction(actopengamefromtxt);
     openmennu->addAction(actOpenSettings);
@@ -75,24 +75,24 @@ void game::setupwindow()
     actLetTheLifeStop->setEnabled(false);
     actOpenSettings->setEnabled(false);
     setWindowIcon(QIcon(":/icn.png"));
-    timer=new QTimer;
+    timer = new QTimer;
 }
 
 void game::setupGame()
 {
-    scene=new QGraphicsScene(this);
-    view=new QGraphicsView(scene,this);
+    scene = new QGraphicsScene(this);
+    view = new QGraphicsView(scene, this);
     this->setCentralWidget(view);
-    isAlive=false;
+    isAlive = false;
     this->setWindowTitle(tr("Game of life"));
     thatGame = nullptr;
-    this->resize(SIZEOFWINDOWX,SIZEOFWINDOWY);
-  }
+    this->resize(SIZEOFWINDOWX, SIZEOFWINDOWY);
+}
 
 void game::closeEvent(QCloseEvent *evt)
 {
-    if(QMessageBox::question(this, tr("odeYEET?"), tr("chcete fakt ukoncit appku!? : ("))
-        == QMessageBox::StandardButton::No){
+    if (QMessageBox::question(this, tr("odeYEET?"), tr("chcete fakt ukoncit appku!? : (")) == QMessageBox::StandardButton::No)
+    {
         evt->ignore();
         return;
     }
@@ -127,22 +127,25 @@ void game::openGame()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                     workdir,
                                                     tr("Plain text (*.txt)"));
-    if(!fileName.isEmpty()){
+    if (!fileName.isEmpty())
+    {
         QFileInfo info(fileName);
-        workdir=info.absoluteDir().absolutePath();
+        workdir = info.absoluteDir().absolutePath();
         symboloflife SoF;
-        if(SoF.exec()==QDialog::Accepted){
-            qDebug()<<"tady to zacina";
-            char pom=SoF.getSymbolofLife();
-            qDebug()<<pom;
-            symbolforlivecell=pom;
+        if (SoF.exec() == QDialog::Accepted)
+        {
+            qDebug() << "tady to zacina";
+            char pom = SoF.getSymbolofLife();
+            qDebug() << pom;
+            symbolforlivecell = pom;
             actLetTheLifeGo->setEnabled(true);
             actNextGeneration->setEnabled(true);
         }
-        else{
+        else
+        {
             return;
         }
-        loadGame(read_file2(fileName),symbolforlivecell);
+        loadGame(read_file2(fileName), symbolforlivecell);
     }
 }
 
@@ -152,30 +155,33 @@ void game::openSetting()
     sdialog.preSetColor(clrlivingcell);
     sdialog.preSetNF(nextFrameTime);
     sdialog.preSetSC(sizeofsq);
-    if(sdialog.exec()==QDialog::Accepted){
-        clrlivingcell=sdialog.getColorCell();
-        sizeofsq=sdialog.getSizeCell();
-        nextFrameTime=sdialog.getNextFrame();
+    if (sdialog.exec() == QDialog::Accepted)
+    {
+        clrlivingcell = sdialog.getColorCell();
+        sizeofsq = sdialog.getSizeCell();
+        nextFrameTime = sdialog.getNextFrame();
         paint(thatGame->get_actual_board());
         resizeWindow();
     }
-    else{
+    else
+    {
         return;
     }
 }
 
 void game::newGameboard()
 {
-    if(dwidget!=nullptr){
+    if (dwidget != nullptr)
+    {
         dwidget->activateWindow();
         return;
     }
-    dwidget=new Drawgame(this,Qt::Window);
+    dwidget = new Drawgame(this, Qt::Window);
     dwidget->setAttribute(Qt::WA_DeleteOnClose);
     dwidget->show();
-    connect(dwidget, &Drawgame::sendMatrix, this, &game::receiveMatrix); //přijme signál z dwidget, který pošle gameboard v qstringu a symbol života
-    connect(dwidget, &QWidget::destroyed, this, [this]() {dwidget = nullptr;
-    });
+    connect(dwidget, &Drawgame::sendMatrix, this, &game::receiveMatrix); // přijme signál z dwidget, který pošle gameboard v qstringu a symbol života
+    connect(dwidget, &QWidget::destroyed, this, [this]()
+            { dwidget = nullptr; });
 }
 
 void game::loadGame(const SQMatrix &m, char symbol)
@@ -185,16 +191,22 @@ void game::loadGame(const SQMatrix &m, char symbol)
         sizeX = field.size();
         sizeY = field[0].size();
 
-        if (test_matrix_consistency(field)) {
-            if (thatGame == nullptr) {
+        if (test_matrix_consistency(field))
+        {
+            if (thatGame == nullptr)
+            {
                 thatGame = new Game(field);
-            } else {
+            }
+            else
+            {
                 thatGame->setGame(field);
             }
             paint(thatGame->get_actual_board());
             resizeWindow();
             actOpenSettings->setEnabled(true);
-        } else {
+        }
+        else
+        {
             qDebug() << "ten obrazek neni konzistentni a jsme v pytli";
             QMessageBox::warning(this, tr("eror"), tr("Your loaded data is not valid, nothing happened..."));
         }
@@ -203,14 +215,18 @@ void game::loadGame(const SQMatrix &m, char symbol)
 
 void game::receiveMatrix(const QString &m, char symbol)
 {
-    qDebug() << "Received matrix with symbol:" << symbol << "and content:\n" << m;
+    qDebug() << "Received matrix with symbol:" << symbol << "and content:\n"
+             << m;
     SQMatrix lines;
-    for (const QString &line : m.split('\n', Qt::SkipEmptyParts)) {
-        if (!line.isEmpty()) {
+    for (const QString &line : m.split('\n', Qt::SkipEmptyParts))
+    {
+        if (!line.isEmpty())
+        {
             lines.push_back(line);
         }
     }
-    if (lines.empty()) {
+    if (lines.empty())
+    {
         qDebug() << "Matrix is empty after parsing";
         QMessageBox::warning(this, tr("Chyba"), tr("Přenesená matice je prázdná"));
         return;
@@ -221,27 +237,31 @@ void game::receiveMatrix(const QString &m, char symbol)
 }
 void game::setupConnections()
 {
-    connect(actQuit,SIGNAL(triggered()),this, SLOT(close()));
-    connect(actNextGeneration,SIGNAL(triggered()),this,SLOT(nextGeneration()));
-    connect(actLetTheLifeGo,SIGNAL(triggered()),this,SLOT(letTheLifeGo()));
+    connect(actQuit, SIGNAL(triggered()), this, SLOT(close()));
+    connect(actNextGeneration, SIGNAL(triggered()), this, SLOT(nextGeneration()));
+    connect(actLetTheLifeGo, SIGNAL(triggered()), this, SLOT(letTheLifeGo()));
     connect(timer, &QTimer::timeout, this, &game::nextGeneration);
-    connect(actLetTheLifeStop,SIGNAL(triggered()),this,SLOT(letTheLifeStop()));
-    connect(actopengamefromtxt,SIGNAL(triggered()),this,SLOT(openGame()));
-    connect(actOpenSettings,SIGNAL(triggered()),this,SLOT(openSetting()));
-    connect(actSaveGameboard,SIGNAL(triggered()),this,SLOT(newGameboard()));
+    connect(actLetTheLifeStop, SIGNAL(triggered()), this, SLOT(letTheLifeStop()));
+    connect(actopengamefromtxt, SIGNAL(triggered()), this, SLOT(openGame()));
+    connect(actOpenSettings, SIGNAL(triggered()), this, SLOT(openSetting()));
+    connect(actSaveGameboard, SIGNAL(triggered()), this, SLOT(newGameboard()));
 }
 
 void game::paint(CMatrix mat)
 {
     scene->clear();
     scene->setSceneRect(0, 0, sizeY * sizeofsq, sizeX * sizeofsq);
-    for(int i=0;i<sizeX;i++){
-        for(int j=0;j<sizeY;j++){
-            if(mat[i][j]==DEAD){
-                 scene->addRect(j*sizeofsq,i*sizeofsq,sizeofsq,sizeofsq, QPen(Qt::black),QBrush(Qt::gray));
-
-            }else{
-                scene->addRect(j*sizeofsq,i*sizeofsq,sizeofsq,sizeofsq,QPen(Qt::black),QBrush(clrlivingcell));
+    for (int i = 0; i < sizeX; i++)
+    {
+        for (int j = 0; j < sizeY; j++)
+        {
+            if (mat[i][j] == DEAD)
+            {
+                scene->addRect(j * sizeofsq, i * sizeofsq, sizeofsq, sizeofsq, QPen(Qt::black), QBrush(Qt::gray));
+            }
+            else
+            {
+                scene->addRect(j * sizeofsq, i * sizeofsq, sizeofsq, sizeofsq, QPen(Qt::black), QBrush(clrlivingcell));
             }
         }
     }
@@ -250,20 +270,22 @@ void game::paint(CMatrix mat)
 
 void game::resizeWindow()
 {
-    if((sizeY*sizeofsq<SIZEOFWINDOWX) || (sizeX*sizeofsq<SIZEOFWINDOWY)){
+    if ((sizeY * sizeofsq < SIZEOFWINDOWX) || (sizeX * sizeofsq < SIZEOFWINDOWY))
+    {
         this->resize(sizeY * sizeofsq + 100, sizeX * sizeofsq + 100);
-
     }
 
-    else if((sizeY*sizeofsq>SIZEOFWINDOWX) && (sizeX*sizeofsq<SIZEOFWINDOWY)){
+    else if ((sizeY * sizeofsq > SIZEOFWINDOWX) && (sizeX * sizeofsq < SIZEOFWINDOWY))
+    {
         this->resize(SIZEOFWINDOWX, sizeX * sizeofsq + 100);
-
     }
-    else if((sizeY*sizeofsq<SIZEOFWINDOWX) && (sizeX*sizeofsq>SIZEOFWINDOWY)){
-        this->resize(sizeY * sizeofsq + 100,SIZEOFWINDOWY);
-
-    }else{
-        this->resize(SIZEOFWINDOWX,SIZEOFWINDOWY);
+    else if ((sizeY * sizeofsq < SIZEOFWINDOWX) && (sizeX * sizeofsq > SIZEOFWINDOWY))
+    {
+        this->resize(sizeY * sizeofsq + 100, SIZEOFWINDOWY);
+    }
+    else
+    {
+        this->resize(SIZEOFWINDOWX, SIZEOFWINDOWY);
     }
     scene->update();
 }
@@ -276,5 +298,3 @@ game::game(QWidget *parent)
     setupConnections();
 }
 game::~game() {}
-
-

@@ -5,8 +5,7 @@
 #include <QMessageBox>
 
 ParamOfNewGame::ParamOfNewGame(QWidget *parent)
-    : QDialog(parent)
-    , ui(new Ui::ParamOfNewGame)
+    : QDialog(parent), ui(new Ui::ParamOfNewGame)
 {
     ui->setupUi(this);
 }
@@ -33,23 +32,24 @@ char ParamOfNewGame::getSymbol() const
 
 void ParamOfNewGame::setHeight(int i)
 {
-//ui->spinBoxFrameDelay->setValue(i);
+    // ui->spinBoxFrameDelay->setValue(i);
     ui->spinHeight->setValue(i);
 }
 
 void ParamOfNewGame::setWidth(int i)
 {
-ui->spinWidth->setValue(i);
+    ui->spinWidth->setValue(i);
 }
 
 void ParamOfNewGame::setSymbol(char val)
 {
-ui->lineEditSymbol->setText(QString("%1").arg(val));
+    ui->lineEditSymbol->setText(QString("%1").arg(val));
 }
 
 void ParamOfNewGame::accept()
 {
-    if(ui->lineEditSymbol->text().isEmpty()){
+    if (ui->lineEditSymbol->text().isEmpty())
+    {
         QMessageBox::warning(this, tr("eror"), tr("type a symbol!!!"));
         return;
     }

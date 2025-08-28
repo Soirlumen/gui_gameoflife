@@ -30,9 +30,9 @@ void read_Cmatrix(CMatrix board);
 bool test_matrix_consistency(SMatrix s);
 bool test_matrix_consistency(SQMatrix s);
 bool test_matrix_consistency(CMatrix c);
-CMatrix convert_S_toC(SMatrix s,char ch);
-CMatrix convert_SQ_toC(SQMatrix s,char ch);
-CMatrix cut(const CMatrix& c);
+CMatrix convert_S_toC(SMatrix s, char ch);
+CMatrix convert_SQ_toC(SQMatrix s, char ch);
+CMatrix cut(const CMatrix &c);
 
 /*
 template <typename T>

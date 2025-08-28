@@ -4,11 +4,10 @@
 #include <QMessageBox>
 
 Setiings::Setiings(QWidget *parent)
-    : QDialog(parent)
-    , ui(new Ui::Setiings)
+    : QDialog(parent), ui(new Ui::Setiings)
 {
     ui->setupUi(this);
-    connect(ui->toolButton,&QToolButton::clicked,this,&Setiings::pickColor);
+    connect(ui->toolButton, &QToolButton::clicked, this, &Setiings::pickColor);
 }
 
 Setiings::~Setiings()
@@ -34,31 +33,33 @@ int Setiings::getNextFrame() const
 void Setiings::preSetColor(QColor col)
 {
     ui->lineEditColorCell->setText(col.toRgb().name());
-    pom=col;
+    pom = col;
 }
 
 void Setiings::preSetSC(int i)
 {
-ui->spinBoxSizeofCell->setValue(i);
+    ui->spinBoxSizeofCell->setValue(i);
 }
 
 void Setiings::preSetNF(int i)
 {
-ui->spinBoxFrameDelay->setValue(i);
+    ui->spinBoxFrameDelay->setValue(i);
 }
 
 void Setiings::pickColor()
 {
-    QColor color=QColorDialog::getColor(Qt::white,this,"Choose color");
-    if(color.isValid()){
+    QColor color = QColorDialog::getColor(Qt::white, this, "Choose color");
+    if (color.isValid())
+    {
         ui->lineEditColorCell->setText(color.toRgb().name());
-        pom=color;
+        pom = color;
     }
 }
 
 void Setiings::accept()
 {
-    if(ui->lineEditColorCell->text().isEmpty()){
+    if (ui->lineEditColorCell->text().isEmpty())
+    {
         QMessageBox::warning(this, tr("eror"), tr("vyberte barvicku!!"));
         return;
     }

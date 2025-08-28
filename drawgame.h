@@ -14,18 +14,19 @@ class QAction;
 class QMenuBar;
 class QLabel;
 
-namespace Ui {
-class Drawgame;
+namespace Ui
+{
+    class Drawgame;
 }
 
 class Drawgame : public QWidget
 {
     Q_OBJECT
-    std::vector<std::vector<QGraphicsRectItem*>> cellRects;
+    std::vector<std::vector<QGraphicsRectItem *>> cellRects;
     int x;
     int y;
     char symbol;
-    const int SIZE_OF_SQUARE=20;
+    const int SIZE_OF_SQUARE = 20;
 
     QString workdir;
     QGraphicsView *view;
@@ -45,32 +46,33 @@ class Drawgame : public QWidget
     QLabel *statusLabel;
 
 public:
-    explicit Drawgame(QWidget *parent = nullptr,Qt::WindowFlags f = Qt::Window);//,char ch='#', int x=10, int y=10);
+    explicit Drawgame(QWidget *parent = nullptr, Qt::WindowFlags f = Qt::Window); //,char ch='#', int x=10, int y=10);
     ~Drawgame();
     void setupScene();
     void setupMenu();
     void updateGameboard(char newsym, int newh, int neww);
 signals:
     void sendMatrix(const QString &matrix, char symbol);
+
 protected:
-    bool eventFilter(QObject* obj, QEvent* event) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
     void closeEvent(QCloseEvent *event) override;
+
 private:
     Ui::Drawgame *ui;
     CMatrix currentPattern;
     bool insertingPattern = false;
-    bool boardExisting=false;
-    bool anyLivingCell=false;
+    bool boardExisting = false;
+    bool anyLivingCell = false;
 private slots:
     void writeFile();
     void drawGrid();
     void setupConnects();
-    public slots:
+public slots:
     void openNewGameboard();
     void openExistingGameboard();
     void insertPattern();
     void runThisInSecondTabheheh();
 };
-
 
 #endif // DRAWGAME_H

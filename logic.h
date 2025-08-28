@@ -26,6 +26,7 @@ class Game
 private:
     Gra_życia first;
     Gra_życia second;
+
 public:
     Game(Gra_życia _p);
     CMatrix get_actual_board() const;
@@ -34,6 +35,5 @@ public:
     void life(int czas);
     ~Game();
 };
-
 
 #endif // LOGIC_H

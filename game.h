@@ -7,7 +7,7 @@
 #include "symboloflife.h"
 #include "setiings.h"
 #include "drawgame.h"
-//#include "paramofnewgame.h"
+// #include "paramofnewgame.h"
 
 class QAction;
 class QToolBar;
@@ -22,13 +22,13 @@ class QColor;
 class game : public QMainWindow
 {
     Q_OBJECT
-    //herni promenne
-    const int SIZEOFWINDOWX=1200;
-    const int SIZEOFWINDOWY=650;
-    int sizeofsq=20;
-    char symbolforlivecell='#';
-    int nextFrameTime=600;
-    QColor clrlivingcell=Qt::darkMagenta;
+    // herni promenne
+    const int SIZEOFWINDOWX = 1200;
+    const int SIZEOFWINDOWY = 650;
+    int sizeofsq = 20;
+    char symbolforlivecell = '#';
+    int nextFrameTime = 600;
+    QColor clrlivingcell = Qt::darkMagenta;
 
     int sizeX;
     int sizeY;
@@ -36,16 +36,16 @@ class game : public QMainWindow
     bool isAlive;
     QTimer *timer;
 
-    //menickove veci
+    // menickove veci
     QMenu *openmennu;
     QToolBar *toolbar;
-    Drawgame *dwidget=nullptr;
+    Drawgame *dwidget = nullptr;
 
-    //prochazeni souboru
+    // prochazeni souboru
     QString workdir;
     QAction *actopengamefromtxt;
 
-    //akce hry
+    // akce hry
     QAction *actNextGeneration;
     QAction *actQuit;
     QAction *actLetTheLifeGo;
@@ -53,7 +53,7 @@ class game : public QMainWindow
     QAction *actOpenSettings;
     QAction *actSaveGameboard;
 
-    //zobrazovani okenka
+    // zobrazovani okenka
     QGraphicsScene *scene;
     QGraphicsView *view;
     std::vector<std::vector<Cell>> field;
@@ -76,6 +76,6 @@ public slots:
     void newGameboard();
     void loadGame(const SQMatrix &m, char symbol);
 private slots:
-     void receiveMatrix(const QString &m, char symbol);
+    void receiveMatrix(const QString &m, char symbol);
 };
 #endif // GAME_H

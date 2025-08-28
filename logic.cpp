@@ -1,6 +1,5 @@
 #include "logic.h"
 
-
 Gra_życia::Gra_życia(CMatrix _k) : cell_gameboard(_k)
 {
     width = cell_gameboard.size();
@@ -92,7 +91,6 @@ CMatrix Gra_życia::get_cell_gameboard() const
     return cell_gameboard;
 }
 
-
 CMatrix Game::get_actual_board() const
 {
     return first.get_cell_gameboard();
@@ -101,28 +99,31 @@ CMatrix Game::get_actual_board() const
 void Game::setGame(CMatrix g)
 {
     Gra_życia pom(g);
-    first=pom;
-    second=pom;
+    first = pom;
+    second = pom;
 }
 
 Game::Game(Gra_życia _p) : first(_p), second(_p) {}
-CMatrix Game::new_generation(){
+CMatrix Game::new_generation()
+{
 
-    for(int i=0;i<first.getW();i++){
-        for(int j=0;j<first.getH();j++){
-            second.set(i,j,first.new_state(i,j));
+    for (int i = 0; i < first.getW(); i++)
+    {
+        for (int j = 0; j < first.getH(); j++)
+        {
+            second.set(i, j, first.new_state(i, j));
         }
     }
-    std::swap(first,second);
+    std::swap(first, second);
     return first.get_cell_gameboard();
 }
 void Game::life(int czas)
 {
-    for(int i=0;i<czas;i++){
+    for (int i = 0; i < czas; i++)
+    {
         new_generation();
         std::this_thread::sleep_for(std::chrono::milliseconds(400));
         system("cls");
-
     }
 }
 

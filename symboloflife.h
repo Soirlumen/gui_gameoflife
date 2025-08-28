@@ -4,8 +4,9 @@
 #include <QDialog>
 #include <QLineEdit>
 
-namespace Ui {
-class symboloflife;
+namespace Ui
+{
+    class symboloflife;
 }
 
 class symboloflife : public QDialog
@@ -21,6 +22,7 @@ public:
 
 private slots:
     void accept();
+
 private:
     Ui::symboloflife *ui;
 };

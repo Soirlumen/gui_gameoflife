@@ -4,10 +4,8 @@
 #include <QMessageBox>
 #include <QString>
 
-
 symboloflife::symboloflife(QWidget *parent)
-    : QDialog(parent)
-    , ui(new Ui::symboloflife)
+    : QDialog(parent), ui(new Ui::symboloflife)
 {
     ui->setupUi(this);
 }
@@ -29,11 +27,11 @@ char symboloflife::getSymbolofLife() const
 
 void symboloflife::accept()
 {
-    if(ui->editSymboloflife->text().isEmpty()){
+    if (ui->editSymboloflife->text().isEmpty())
+    {
         QMessageBox::warning(this, tr("eror"), tr("vyplnte znak zivota!!"));
         return;
     }
 
     QDialog::accept();
 }
-

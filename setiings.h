@@ -3,15 +3,16 @@
 
 #include <QDialog>
 
-namespace Ui {
-class Setiings;
-class QColor;
+namespace Ui
+{
+    class Setiings;
+    class QColor;
 }
 
 class Setiings : public QDialog
 {
     Q_OBJECT
-    QColor pom=Qt::white;
+    QColor pom = Qt::white;
 
 public:
     explicit Setiings(QWidget *parent = nullptr);
@@ -26,6 +27,7 @@ public:
 public slots:
     void pickColor();
     void accept();
+
 private:
     Ui::Setiings *ui;
 };

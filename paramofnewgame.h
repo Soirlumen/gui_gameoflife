@@ -3,8 +3,9 @@
 
 #include <QDialog>
 
-namespace Ui {
-class ParamOfNewGame;
+namespace Ui
+{
+    class ParamOfNewGame;
 }
 
 class ParamOfNewGame : public QDialog

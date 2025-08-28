@@ -71,12 +71,12 @@ bool test_matrix_consistency(SMatrix s)
     return true;
 }
 
-CMatrix convert_S_toC(SMatrix s,char ch)
+CMatrix convert_S_toC(SMatrix s, char ch)
 {
 
     int pom1 = s.size();
     CMatrix result; //(pom1,std::vector<Cell>(pom2,DEAD));
-    for (int i=0; i < pom1; i++)
+    for (int i = 0; i < pom1; i++)
     {
         std::vector<Cell> pom;
         for (char &c : s[i])
@@ -95,14 +95,13 @@ CMatrix convert_S_toC(SMatrix s,char ch)
     return result;
 }
 
-
 SQMatrix read_file2(QString filename)
 {
     QFile file(filename);
     SQMatrix vec;
-    if(file.open(QFile::ReadOnly | QFile::Text))
+    if (file.open(QFile::ReadOnly | QFile::Text))
     {
-        while(!file.atEnd())
+        while (!file.atEnd())
         {
             QString line = file.readLine();
             line.chop(1); // odstraní \n nebo \r
@@ -115,10 +114,10 @@ SQMatrix read_file2(QString filename)
 CMatrix convert_SQ_toC(const SQMatrix s, char ch)
 {
     CMatrix result;
-    for (int i=0; i < s.size(); i++)
+    for (int i = 0; i < s.size(); i++)
     {
         std::vector<Cell> pom;
-        for(QString::const_iterator it = s[i].begin(); it != s[i].end(); it++)
+        for (QString::const_iterator it = s[i].begin(); it != s[i].end(); it++)
         {
             if (*it == ch)
             {
@@ -134,13 +133,12 @@ CMatrix convert_SQ_toC(const SQMatrix s, char ch)
     return result;
 }
 
-
-//kontroluje, jestli je vektor stringů konzistentní (všechny řádky stejně dlouhé) anebo prázdná, prázdná matice - false počkeeeeeeeeeeeeeJ VŠAK TO MOHU KONTROLOVAT JEN JAKO cmATRIX IDIOTE BLBEČKU:(
+// kontroluje, jestli je vektor stringů konzistentní (všechny řádky stejně dlouhé) anebo prázdná, prázdná matice - false počkeeeeeeeeeeeeeJ VŠAK TO MOHU KONTROLOVAT JEN JAKO cmATRIX IDIOTE BLBEČKU:(
 bool test_matrix_consistency(SQMatrix s)
 {
     if (s.empty())
     {
-        qDebug()<<"it's all empty man";
+        qDebug() << "it's all empty man";
         return false;
     }
     int first_wymiar = s[0].size();
@@ -148,7 +146,7 @@ bool test_matrix_consistency(SQMatrix s)
     {
         if (it->size() != first_wymiar)
         {
-            qDebug()<<"man its not a rectangle, its someting cringe idk";
+            qDebug() << "man its not a rectangle, its someting cringe idk";
             return false;
         }
     }
@@ -158,51 +156,67 @@ bool test_matrix_consistency(SQMatrix s)
 
 bool test_matrix_consistency(CMatrix c)
 {
-    if(c.size()<3){
-        qDebug()<<"it's too small man, make bigger field pls";
+    if (c.size() < 3)
+    {
+        qDebug() << "it's too small man, make bigger field pls";
         return false;
     }
 
     int first_wymiar = c[0].size();
-    for (int i = 1; i < c.size(); i++) {
-        if (c[i].size() != first_wymiar) {
-            qDebug()<<"Row "<<i<<" has different size";
+    for (int i = 1; i < c.size(); i++)
+    {
+        if (c[i].size() != first_wymiar)
+        {
+            qDebug() << "Row " << i << " has different size";
             return false;
         }
     }
-    qDebug()<<"ey it's a rectangle boy";
+    qDebug() << "ey it's a rectangle boy";
     return true;
 }
 
-CMatrix cut(const CMatrix& c) {
+CMatrix cut(const CMatrix &c)
+{
     int rows = c.size();
-    if (rows == 0) return CMatrix();
+    if (rows == 0)
+        return CMatrix();
 
     int cols = c[0].size();
-    if (cols == 0) return CMatrix();
+    if (cols == 0)
+        return CMatrix();
 
     int min_x = rows, max_x = -1;
     int min_y = cols, max_y = -1;
 
-    for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < cols; ++j) {
-            if (c[i][j] == ALIVE) {
-                if (i < min_x) min_x = i;
-                if (i > max_x) max_x = i;
-                if (j < min_y) min_y = j;
-                if (j > max_y) max_y = j;
+    for (int i = 0; i < rows; ++i)
+    {
+        for (int j = 0; j < cols; ++j)
+        {
+            if (c[i][j] == ALIVE)
+            {
+                if (i < min_x)
+                    min_x = i;
+                if (i > max_x)
+                    max_x = i;
+                if (j < min_y)
+                    min_y = j;
+                if (j > max_y)
+                    max_y = j;
             }
         }
     }
 
-    if (max_x < min_x || max_y < min_y) {
+    if (max_x < min_x || max_y < min_y)
+    {
         return CMatrix(); // všechno mrtvé
     }
 
     CMatrix result(max_x - min_x + 1, std::vector<Cell>(max_y - min_y + 1));
 
-    for (int i = min_x; i <= max_x; ++i) {
-        for (int j = min_y; j <= max_y; ++j) {
+    for (int i = min_x; i <= max_x; ++i)
+    {
+        for (int j = min_y; j <= max_y; ++j)
+        {
             result[i - min_x][j - min_y] = c[i][j];
         }
     }
