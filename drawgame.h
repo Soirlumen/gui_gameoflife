@@ -12,6 +12,7 @@ class QGraphicsView;
 class QMenu;
 class QAction;
 class QMenuBar;
+class QLabel;
 
 namespace Ui {
 class Drawgame;
@@ -31,13 +32,17 @@ class Drawgame : public QWidget
     QGraphicsScene *scene;
     QString vec_to_QStr(char ch);
 
-    QMenu *savemennu;
+    QMenu *filemenu;
+    QMenu *editmenu;
+    QMenu *gamemenu;
     QAction *actSaveGame;
     QAction *actNewGame;
     QAction *actOpenGame;
     QAction *actOpenPattern;
     QAction *actRunGame;
     QMenuBar *mnuBar;
+
+    QLabel *statusLabel;
 
 public:
     explicit Drawgame(QWidget *parent = nullptr,Qt::WindowFlags f = Qt::Window);//,char ch='#', int x=10, int y=10);
@@ -49,6 +54,7 @@ signals:
     void sendMatrix(const QString &matrix, char symbol);
 protected:
     bool eventFilter(QObject* obj, QEvent* event) override;
+    void closeEvent(QCloseEvent *event) override;
 private:
     Ui::Drawgame *ui;
     CMatrix currentPattern;

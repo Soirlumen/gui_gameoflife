@@ -9,8 +9,10 @@
 #include <QFileDialog>
 #include <QStandardPaths>
 #include <QVBoxLayout>
+#include <QLabel>
 #include <QMessageBox>
-
+#include <QTimer>
+#include <QCloseEvent>
 
 QString Drawgame::vec_to_QStr(char ch)
 {
@@ -47,68 +49,62 @@ void Drawgame::setupScene()
 {
     scene=new QGraphicsScene(this);
     view=new QGraphicsView(scene,this);
-    /*
-    cellRects.resize(x);
-    for (int i = 0; i < x; ++i) {
-        cellRects[i].resize(y);
-        for (int j = 0; j < y; ++j) {
-            QGraphicsRectItem* rect = scene->addRect(
-                j*size_of_square,i*size_of_square,size_of_square,size_of_square,QPen(Qt::black),QBrush(Qt::gray));
-            rect->setAcceptedMouseButtons(Qt::LeftButton);
-            cellRects[i][j]=rect;
-            rect->setData(0,false);
-        }
-    }
-*/
-    //cellRects[2][3]->setBrush(QBrush(Qt::darkCyan));
-    //connect(scene, &QGraphicsScene::mousePressEvent, this, &Drawgame::handleClick);
     view->viewport()->installEventFilter(this);
 
 scene->update();    
 }
-
 void Drawgame::setupMenu()
 {
-    actSaveGame=new QAction(tr("&Save as..."));
-    actSaveGame->setToolTip(tr("save your own game"));
-    actSaveGame->setStatusTip(tr("save your own game somewhere idk"));
+    actSaveGame = new QAction(tr("&Save as..."));
+    actSaveGame->setToolTip(tr("save your current gameboard"));
+    actSaveGame->setStatusTip(tr("save your current game into text file"));
 
-    actNewGame=new QAction(tr("&New gameboard..."));
-    actNewGame->setToolTip(tr("Draw new gameboard"));
-    actNewGame->setStatusTip(tr("open and draw new gameboard"));
+    actNewGame = new QAction(tr("&New gameboard..."));
+    actNewGame->setToolTip(tr("Create a new gameboard"));
+    actNewGame->setStatusTip(tr("Create and draw new gameboard"));
 
-    actOpenGame=new QAction(tr("&open existing gameboard..."));
-    actOpenGame->setToolTip(tr("edit existing gameboard"));
-    actOpenGame->setStatusTip(tr("open existing wgameboard in this window and draw"));
+    actOpenGame = new QAction(tr("&Open existing gameboard..."));
+    actOpenGame->setToolTip(tr("load an existing gameboard"));
+    actOpenGame->setStatusTip(tr("load an existing gameboard in this window and edit it"));
 
-    actRunGame=new QAction(tr("&Run this game..."));
-    actRunGame->setToolTip(tr("open Game from this gameboard"));
-    actRunGame->setStatusTip(tr("open Game from this gameboard"));
+    actRunGame = new QAction(tr("&Run this game..."));
+    actRunGame->setToolTip(tr("Start a simulation from a current gameboard"));
+    actRunGame->setStatusTip(tr("Start a simulation from a current gameboard"));
 
-    actOpenPattern=new QAction(tr("&Open pattern..."));
-    actOpenPattern->setToolTip(tr("Open pattern and insert it into gameboard"));
-    actOpenPattern->setStatusTip(tr("Open pattern and insert it into gameboard"));
+    actOpenPattern = new QAction(tr("&Open pattern..."));
+    actOpenPattern->setToolTip(tr("Load a pattern and insert it into a game"));
+    actOpenPattern->setStatusTip(tr("Load a pattern and insert it into a game"));
 
     actRunGame->setEnabled(false);
     actSaveGame->setEnabled(false);
     actOpenPattern->setEnabled(false);
 
-    savemennu=new QMenu(tr("&Game"));
-    savemennu->addAction(actNewGame);
-    savemennu->addAction(actOpenGame);
-    savemennu->addAction(actSaveGame);
-    savemennu->addAction(actOpenPattern);
-    savemennu->addAction(actRunGame);
-    mnuBar=new QMenuBar(this);
-    mnuBar->autoFillBackground();
-    mnuBar->addMenu(savemennu);
+    filemenu = new QMenu(tr("&File"));
+    filemenu->addAction(actNewGame);
+    filemenu->addAction(actOpenGame);
+    filemenu->addAction(actSaveGame);
 
-    QVBoxLayout* layout =new QVBoxLayout(this);
+    editmenu = new QMenu(tr("&Tools"));
+    editmenu->addAction(actOpenPattern);
+
+    gamemenu = new QMenu(tr("&Game"));
+    gamemenu->addAction(actRunGame);
+
+    mnuBar = new QMenuBar(this);
+    mnuBar->addMenu(filemenu);
+    mnuBar->addMenu(editmenu);
+    mnuBar->addMenu(gamemenu);
+
+    statusLabel=new QLabel(tr("ready"),this);
+    statusLabel->setStyleSheet("QLabel {background-color : darkgray;}");
+
+    QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setMenuBar(mnuBar);
     layout->addWidget(view);
+    layout->addWidget(statusLabel);
     this->setLayout(layout);
+
     scene->update();
-    //connect(actSaveGame,SIGNAL(triggered()),this,SLOT(writeFile()));
     this->setWindowTitle(tr("kresleni nove hry"));
 }
 
@@ -138,6 +134,10 @@ void Drawgame::writeFile()
                 QTextStream stream(&file);
                 stream << vec_to_QStr(symbol);
                 file.close();
+                statusLabel->setText(tr("Gameboard saved successfully"));
+                QTimer::singleShot(3000, this, [this]() {
+                    statusLabel->setText(tr("Ready"));
+                });
             }
             else
             {qDebug() << "Error opening file for writing:" << file.errorString();
@@ -161,7 +161,6 @@ void Drawgame::drawGrid()
     }
 }
 
-// drawgame.cpp
 void Drawgame::setupConnects()
 {
     connect(actSaveGame, &QAction::triggered, this, &Drawgame::writeFile);
@@ -179,10 +178,12 @@ void Drawgame::openNewGameboard()
         actOpenPattern->setEnabled(true);
     actRunGame->setEnabled(true);
     actSaveGame->setEnabled(true);
+    statusLabel->setText(tr("Gameboard created successfully"));
+    QTimer::singleShot(3000, this, [this]() {
+        statusLabel->setText(tr("Ready"));
+    });
     }
     else{
-        qDebug()<<"ten obrazek zase neni konzistentni a jsme v pytli";
-        QMessageBox::warning(this,tr("eror"),tr("nevlozil jsi udaje, nic se nestalo"));
     }
 }
 
@@ -240,6 +241,10 @@ void Drawgame::openExistingGameboard()
                 actRunGame->setEnabled(true);
                 actSaveGame->setEnabled(true);
                 actOpenPattern->setEnabled(true);
+                statusLabel->setText(tr("Gameboard loaded successfully"));
+                QTimer::singleShot(3000, this, [this]() {
+                    statusLabel->setText(tr("Ready"));
+                });
             }else{
                 qDebug()<<"ten obrazek zase neni konzistentni a jsme v pytli";
                 QMessageBox::warning(this,tr("eror"),tr("myslim ze tvuj textak není obdelnik, ted nevim co se stane lol"));
@@ -276,7 +281,7 @@ void Drawgame::insertPattern()
         QMessageBox::warning(this, tr("prazden"), tr("Pattern je prázdný (jen mrtvé buňky)"));
         return;
     }
-
+    statusLabel->setText(tr("Pattern in mouse!"));
     currentPattern = cropped;
     insertingPattern = true;
 }
@@ -284,11 +289,15 @@ void Drawgame::insertPattern()
 void Drawgame::runThisInSecondTabheheh()
 {
 emit sendMatrix(vec_to_QStr(symbol),symbol);
+    statusLabel->setText(tr("Gameboard emited into game"));
+    QTimer::singleShot(3000, this, [this]() {
+        statusLabel->setText(tr("Ready"));
+    });
 }
 
 bool Drawgame::eventFilter(QObject* obj, QEvent* event)
 {
-    // 🔹 speciální větev: jsme v režimu vkládání vzoru
+    // vložíme pattern
     if (insertingPattern && obj == view->viewport() && event->type() == QEvent::MouseButtonPress) {
         QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
         QPointF scenePos = view->mapToScene(mouseEvent->pos());
@@ -307,10 +316,13 @@ bool Drawgame::eventFilter(QObject* obj, QEvent* event)
                 }
             }
         }
-
         scene->update();
-        insertingPattern = false;   // vypnout po jednom vložení (pokud chceš, může zůstat true)
-        return true;                // událost jsme zpracovali
+        insertingPattern = false;
+        statusLabel->setText(tr("Pattern inserted"));
+        QTimer::singleShot(3000, this, [this]() {
+            statusLabel->setText(tr("Ready"));
+        });
+        return true;
     }
 
     if (obj == view->viewport() && event->type() == QEvent::MouseButtonPress) {
@@ -336,4 +348,17 @@ bool Drawgame::eventFilter(QObject* obj, QEvent* event)
     return QWidget::eventFilter(obj, event);
 }
 
+void Drawgame::closeEvent(QCloseEvent *event) {
 
+    //pro případ že se zavře hlavní okno, zavře se i widget
+    if (parentWidget() && !parentWidget()->isVisible()) {
+        event->accept();
+        return;
+    }
+    if(QMessageBox::question(this, tr("Sure to close??"), tr("Unsaved gameboard will be discarded..."))
+        == QMessageBox::StandardButton::No){
+        event->ignore();
+        return;
+    }
+    event->accept();
+}

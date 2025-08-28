@@ -86,24 +86,8 @@ void game::setupGame()
     isAlive=false;
     this->setWindowTitle(tr("Game of life"));
     thatGame = nullptr;
-    /*
-    CMatrix field=convert_S_toC2(read_file2(filename),symbolforlivecell);
-    sizeX=field.size();
-    field[0].pop_back(); //protože z nějakého důvodu se při uložení txt souboru uloží prázdný řádek navíc achjo
-    sizeY=field[0].size();
-    thatGame = nullptr;
-    if(test_wymiary_consistency(field)){
-        thatGame = new Game(field);
-        paint(thatGame->getAktualny());
-        resizeWindow();
-
-    }
-    else{
-        QMessageBox::warning(this,tr("typico"),tr("myslim ze tvuj textak není obdelnik, ted nevim co se stane lol"));
-    }*/
     this->resize(SIZEOFWINDOWX,SIZEOFWINDOWY);
-    //scrollArea->resize(SIZEOFWINDOWX, SIZEOFWINDOWY);
-}
+  }
 
 void game::closeEvent(QCloseEvent *evt)
 {
@@ -150,20 +134,12 @@ void game::openGame()
         if(SoF.exec()==QDialog::Accepted){
             qDebug()<<"tady to zacina";
             char pom=SoF.getSymbolofLife();
-            //TODO: opravit aby to kontrolovalo že se nepassne prázdný qstring
             qDebug()<<pom;
-            if(pom=='\0'){
-                qDebug()<<"dojde to az sem?";
-                QMessageBox::warning(this,tr("eror"),tr("vlozil jsi prazdny znak to se nepocita, nic nebylo nahrato"));
-                return;
-            }
-            qDebug()<<"anebo sem?";
             symbolforlivecell=pom;
             actLetTheLifeGo->setEnabled(true);
             actNextGeneration->setEnabled(true);
         }
         else{
-            QMessageBox::warning(this,tr("eror"),tr("cancelnul jsi to, nic nebylo nahrato"));
             return;
         }
         loadGame(read_file2(fileName),symbolforlivecell);
@@ -184,7 +160,6 @@ void game::openSetting()
         resizeWindow();
     }
     else{
-        QMessageBox::warning(this,tr("eror"),tr("cancelnul jsi to, nic nebylo nahrato"));
         return;
     }
 }
@@ -198,10 +173,9 @@ void game::newGameboard()
     dwidget=new Drawgame(this,Qt::Window);
     dwidget->setAttribute(Qt::WA_DeleteOnClose);
     dwidget->show();
-    connect(dwidget, &Drawgame::sendMatrix, this, &game::receiveMatrix);
-    connect(dwidget, &QWidget::destroyed, this, [this]() {dwidget = nullptr; //this->setCentralWidget(view);
+    connect(dwidget, &Drawgame::sendMatrix, this, &game::receiveMatrix); //přijme signál z dwidget, který pošle gameboard v qstringu a symbol života
+    connect(dwidget, &QWidget::destroyed, this, [this]() {dwidget = nullptr;
     });
-    //connect(this, &QWidget::destroyed, dwidget, &QWidget::close);
 }
 
 void game::loadGame(const SQMatrix &m, char symbol)
@@ -221,8 +195,8 @@ void game::loadGame(const SQMatrix &m, char symbol)
             resizeWindow();
             actOpenSettings->setEnabled(true);
         } else {
-            qDebug() << "ten obrazek zase neni konzistentni a jsme v pytli";
-            QMessageBox::warning(this, tr("eror"), tr("myslim ze tvuj textak není obdelnik, ted nevim co se stane lol"));
+            qDebug() << "ten obrazek neni konzistentni a jsme v pytli";
+            QMessageBox::warning(this, tr("eror"), tr("Your loaded data is not valid, nothing happened..."));
         }
     }
 }

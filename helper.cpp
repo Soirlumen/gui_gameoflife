@@ -106,14 +106,11 @@ SQMatrix read_file2(QString filename)
         {
             QString line = file.readLine();
             line.chop(1); // odstraní \n nebo \r
-            while (line.size() < 50) line += "0"; // doplnit nuly na správnou délku
             vec.push_back(line);
         }
     }
     return vec;
 }
-
-
 
 CMatrix convert_SQ_toC(const SQMatrix s, char ch)
 {
