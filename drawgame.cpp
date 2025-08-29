@@ -179,7 +179,7 @@ void Drawgame::setupConnects()
 
 void Drawgame::openNewGameboard()
 {
-    ParamOfNewGame PoNG;
+    ParamOfNewGame PoNG(symbol);
     if (PoNG.exec() == QDialog::Accepted)
     {
         updateGameboard(PoNG.getSymbol(), PoNG.getHeight(), PoNG.getWidth());
@@ -204,7 +204,7 @@ void Drawgame::openExistingGameboard()
     {
         QFileInfo info(fileName);
         workdir = info.absoluteDir().absolutePath();
-        symboloflife SoF;
+        symboloflife SoF(symbol);
         if (SoF.exec() == QDialog::Accepted)
         {
             qDebug() << "tady to zacina";
@@ -280,7 +280,7 @@ void Drawgame::insertPattern()
     QFileInfo info(fileName);
     workdir = info.absoluteDir().absolutePath();
 
-    symboloflife SoF;
+    symboloflife SoF(symbol);
     if (SoF.exec() != QDialog::Accepted)
     {
         QMessageBox::warning(this, tr("eror"), tr("Cancelnuto, nic nebylo vloženo"));

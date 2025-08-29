@@ -13,7 +13,7 @@ class ParamOfNewGame : public QDialog
     Q_OBJECT
 
 public:
-    explicit ParamOfNewGame(QWidget *parent = nullptr);
+    explicit ParamOfNewGame(char symbol = '#', QWidget *parent = nullptr);
     ~ParamOfNewGame();
     int getHeight() const;
     int getWidth() const;

@@ -4,10 +4,11 @@
 #include <QString>
 #include <QMessageBox>
 
-ParamOfNewGame::ParamOfNewGame(QWidget *parent)
+ParamOfNewGame::ParamOfNewGame(char symbol, QWidget *parent)
     : QDialog(parent), ui(new Ui::ParamOfNewGame)
 {
     ui->setupUi(this);
+    setSymbol(symbol);
 }
 
 ParamOfNewGame::~ParamOfNewGame()

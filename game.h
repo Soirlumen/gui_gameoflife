@@ -16,8 +16,10 @@ class QPainter;
 class QGraphicsScene;
 class QGraphicsView;
 class QTimer;
+class QLabel;
 class QMenu;
 class QColor;
+class QStatusBar;
 
 class game : public QMainWindow
 {
@@ -35,6 +37,8 @@ class game : public QMainWindow
     Game *thatGame;
     bool isAlive;
     QTimer *timer;
+    QTimer *actualTime;
+    QLabel *statusLabel;
 
     // menickove veci
     QMenu *openmennu;
@@ -77,5 +81,6 @@ public slots:
     void loadGame(const SQMatrix &m, char symbol);
 private slots:
     void receiveMatrix(const QString &m, char symbol);
+    void updateTimer();
 };
 #endif // GAME_H

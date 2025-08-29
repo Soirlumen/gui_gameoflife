@@ -25,7 +25,7 @@ class Drawgame : public QWidget
     std::vector<std::vector<QGraphicsRectItem *>> cellRects;
     int x;
     int y;
-    char symbol;
+    char symbol = '#';
     const int SIZE_OF_SQUARE = 20;
 
     QString workdir;
@@ -45,6 +45,12 @@ class Drawgame : public QWidget
 
     QLabel *statusLabel;
 
+    Ui::Drawgame *ui;
+    CMatrix currentPattern;
+    bool insertingPattern = false;
+    bool boardExisting = false;
+    bool anyLivingCell = false;
+
 public:
     explicit Drawgame(QWidget *parent = nullptr, Qt::WindowFlags f = Qt::Window); //,char ch='#', int x=10, int y=10);
     ~Drawgame();
@@ -58,12 +64,6 @@ protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
     void closeEvent(QCloseEvent *event) override;
 
-private:
-    Ui::Drawgame *ui;
-    CMatrix currentPattern;
-    bool insertingPattern = false;
-    bool boardExisting = false;
-    bool anyLivingCell = false;
 private slots:
     void writeFile();
     void drawGrid();

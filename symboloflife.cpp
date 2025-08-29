@@ -4,10 +4,11 @@
 #include <QMessageBox>
 #include <QString>
 
-symboloflife::symboloflife(QWidget *parent)
+symboloflife::symboloflife(char sym, QWidget *parent)
     : QDialog(parent), ui(new Ui::symboloflife)
 {
     ui->setupUi(this);
+    setSymbolofLife(sym);
 }
 
 symboloflife::~symboloflife()

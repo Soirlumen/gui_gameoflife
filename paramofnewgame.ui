@@ -54,8 +54,14 @@
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <widget class="QLineEdit" name="lineEditSymbol">
+          <property name="text">
+           <string/>
+          </property>
           <property name="maxLength">
            <number>1</number>
+          </property>
+          <property name="placeholderText">
+           <string/>
           </property>
          </widget>
         </item>

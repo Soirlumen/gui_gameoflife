@@ -15,7 +15,7 @@ class symboloflife : public QDialog
     QLineEdit *editSymboloflife;
 
 public:
-    explicit symboloflife(QWidget *parent = nullptr);
+    explicit symboloflife(char sym = '#', QWidget *parent = nullptr);
     ~symboloflife();
     void setSymbolofLife(char val);
     char getSymbolofLife() const;

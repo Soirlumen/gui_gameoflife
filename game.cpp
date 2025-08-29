@@ -16,6 +16,8 @@
 #include <QFileDialog>
 #include <QDebug>
 #include <QApplication>
+#include <QDateTime>
+#include <QLabel>
 
 void game::setupwindow()
 {
@@ -131,7 +133,7 @@ void game::openGame()
     {
         QFileInfo info(fileName);
         workdir = info.absoluteDir().absolutePath();
-        symboloflife SoF;
+        symboloflife SoF(symbolforlivecell);
         if (SoF.exec() == QDialog::Accepted)
         {
             qDebug() << "tady to zacina";
@@ -227,7 +229,7 @@ void game::receiveMatrix(const QString &m, char symbol)
     }
     if (lines.empty())
     {
-        qDebug() << "Matrix is empty after parsing";
+        qDebug() << "přenesená matice je prázdná";
         QMessageBox::warning(this, tr("Chyba"), tr("Přenesená matice je prázdná"));
         return;
     }
@@ -235,16 +237,22 @@ void game::receiveMatrix(const QString &m, char symbol)
     actLetTheLifeGo->setEnabled(true);
     actNextGeneration->setEnabled(true);
 }
+
+void game::updateTimer()
+{
+    QString actualtime = QDateTime::currentDateTime().toString("HH:mm:ss");
+    statusLabel->setText(actualtime);
+}
 void game::setupConnections()
 {
-    connect(actQuit, SIGNAL(triggered()), this, SLOT(close()));
-    connect(actNextGeneration, SIGNAL(triggered()), this, SLOT(nextGeneration()));
-    connect(actLetTheLifeGo, SIGNAL(triggered()), this, SLOT(letTheLifeGo()));
+    connect(actQuit, &QAction::triggered, this, &QWidget::close);
+    connect(actNextGeneration, &QAction::triggered, this, &game::nextGeneration);
+    connect(actLetTheLifeGo, &QAction::triggered, this, &game::letTheLifeGo);
     connect(timer, &QTimer::timeout, this, &game::nextGeneration);
-    connect(actLetTheLifeStop, SIGNAL(triggered()), this, SLOT(letTheLifeStop()));
-    connect(actopengamefromtxt, SIGNAL(triggered()), this, SLOT(openGame()));
-    connect(actOpenSettings, SIGNAL(triggered()), this, SLOT(openSetting()));
-    connect(actSaveGameboard, SIGNAL(triggered()), this, SLOT(newGameboard()));
+    connect(actLetTheLifeStop, &QAction::triggered, this, &game::letTheLifeStop);
+    connect(actopengamefromtxt, &QAction::triggered, this, &game::openGame);
+    connect(actOpenSettings, &QAction::triggered, this, &game::openSetting);
+    connect(actSaveGameboard, &QAction::triggered, this, &game::newGameboard);
 }
 
 void game::paint(CMatrix mat)
@@ -296,5 +304,11 @@ game::game(QWidget *parent)
     setupGame();
     setupwindow();
     setupConnections();
+    statusLabel = new QLabel(this);
+    statusBar()->addPermanentWidget(statusLabel);
+    actualTime = new QTimer();
+    connect(actualTime, &QTimer::timeout, this, &game::updateTimer);
+    actualTime->start(1000);
+    updateTimer();
 }
 game::~game() {}
